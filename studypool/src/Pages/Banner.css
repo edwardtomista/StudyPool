@@ -1,0 +1,19 @@
+.banner {
+    background: url('./classroom.png');
+    height: 50vh; /* 50% of the screen height */
+    position: relative;
+}
+
+.banner__info {
+    background-color: #0055a2;
+    color: white;
+    padding-top: 25vh;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-bottom: 40px;
+    width: 300px;
+}
+
+.banner__info > button {
+    background-color: white;
+}
