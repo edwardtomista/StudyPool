@@ -1,7 +1,5 @@
 .banner {
-    background: url('./classroom.png');
-    height: 50vh; /* 50% of the screen height */
-    position: relative;
+    display: flex;
 }
 
 .banner__info {
@@ -16,4 +14,18 @@
 
 .banner__info > button {
     background-color: white;
+    text-transform: inherit;
+    margin-top: 20px;
+    font-weight: 600;
 }
+
+.banner__info > button:hover {
+    background-color: #0055a2;
+    color: white;
+}
+
+.banner__image {
+    width: 100%;
+    height: auto;
+}
+

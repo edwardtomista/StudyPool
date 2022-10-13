@@ -10,6 +10,13 @@ function Banner() {
                 <h5>Find your class, host, or join study sessions.</h5>
                 <Button variant='outlined'>Classes</Button>
             </div>
+
+            <img 
+                className="banner__image"
+                src="./classroom.png"
+                alt=""
+            />
+
         </div>    
     )
 }
