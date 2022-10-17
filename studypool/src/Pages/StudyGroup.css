@@ -1,0 +1,42 @@
+.group_container {
+  display: flex;
+  min-height: 85vh;
+  height: 100%;
+}
+
+.group_leftBar,
+.group_rightBar {
+  flex: 1;
+  height: 85vh;
+  top: 0;
+  position: sticky;
+}
+
+.group_feed {
+  width: 50%;
+  min-width: 50vh;
+  background-color: whitesmoke;
+  padding: 0px;
+  height: 85vh;
+  overflow: auto;
+}
+
+.group_postList {
+  min-width: 50vh;
+  background-color: whitesmoke;
+  padding: 0px;
+  height: 65vh;
+  min-height: 65vh;
+  overflow: auto;
+}
+
+.group_postCreate {
+  min-width: 50vh;
+  overflow: auto;
+  max-height: 20vh;
+  height: 19vh;
+  margin-top: 1vh;
+  padding-left: 60px;
+  padding-right: 60px;
+  background-color: white;
+}
