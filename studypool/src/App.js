@@ -4,6 +4,7 @@ import Header from "./Components/Navbar/Header";
 import Login from "./Pages/Login";
 import SignUp from "./Pages/Signup";
 import StudyGroup from "./Pages/StudyGroup";
+import Catalog from "./Pages/Catalog";
 import { Route, Routes } from "react-router-dom";
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/SignUp" element={<SignUp />} />
+        <Route path="/Catalog" element={<Catalog />} />
         <Route path="/StudyGroup" element={<StudyGroup />} />
       </Routes>
     </div>
