@@ -3,10 +3,7 @@ import './Header.css';
 import SearchIcon from '@mui/icons-material/Search';
 import IconButton from "@mui/material/IconButton";
 import PersonIcon from '@mui/icons-material/Person';
-import { Route, Routes, useNavigate, Link } from "react-router-dom";
-
-
-
+import { useNavigate, Link } from "react-router-dom";
 
 function Header() {
     const navigate = useNavigate();
