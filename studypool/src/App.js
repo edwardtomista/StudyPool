@@ -5,6 +5,7 @@ import Login from "./Pages/Login";
 import SignUp from "./Pages/Signup";
 import StudyGroup from "./Pages/StudyGroup";
 import Catalog from "./Pages/Catalog";
+import Groups from "./Pages/Groups";
 import { Route, Routes } from "react-router-dom";
 
 function App() {
@@ -12,10 +13,11 @@ function App() {
     <div className="App">
       <Header />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home />} />ß
         <Route path="/Login" element={<Login />} />
         <Route path="/SignUp" element={<SignUp />} />
         <Route path="/Catalog" element={<Catalog />} />
+        <Route path="/Groups" element={<Groups />} />
         <Route path="/StudyGroup" element={<StudyGroup />} />
       </Routes>
     </div>
