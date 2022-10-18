@@ -25,6 +25,7 @@ export default function Groups() {
   return (
     <div className="tables">
       <h1>CS 46A</h1>
+      <Button variant="contained">Create</Button>
       <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
