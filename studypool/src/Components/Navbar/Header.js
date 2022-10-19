@@ -23,14 +23,17 @@ function Header() {
             </div>
 
             <div className='header__right'>
-            <IconButton size="small" component={Link} to="/login">
-                <p>Login</p>
-              </IconButton>
-              <div className="sadSlash">/</div>
-              <IconButton size="small" component={Link} to="/signup">
-                <p>Sign-Up</p>
-              </IconButton>
-                <PersonIcon />
+                <IconButton size="small" component={Link} to="/login">
+                    <p>Login</p>
+                </IconButton>
+              
+                <div className="sadSlash">/</div>
+                <IconButton size="small" component={Link} to="/signup">
+                    <p>Sign-Up</p>
+                </IconButton>
+                
+                <PersonIcon onClick={() => navigate("/Account")}>
+                </PersonIcon>
             </div>
         </div>
     )
