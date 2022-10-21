@@ -8,6 +8,8 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Typography from '@mui/material/Typography';
+import ListItemButton from '@mui/material/ListItemButton';
+import { useNavigate, Link } from "react-router-dom";
 
 function createData(courceName, groupName) {
   return { courceName, groupName};
@@ -23,6 +25,8 @@ const groups = [
 ];
 
 export default function Account() {
+  const navigate = useNavigate();
+
   return (
     <div className="tables">
       <h1>Account Info</h1>
@@ -92,12 +96,14 @@ export default function Account() {
             groups.map(function(group) {
             return (
               <ListItem>
-                <ListItemAvatar>
-                  <Avatar>
-                    <AccountCircleIcon />
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={group.groupName} secondary={group.courceName}/>
+                <ListItemButton onClick={() => navigate("/Groups")}>
+                  <ListItemAvatar>
+                    <Avatar>
+                      <AccountCircleIcon />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText primary={group.groupName} secondary={group.courceName}/>
+                </ListItemButton>
               </ListItem>
               )
             })
