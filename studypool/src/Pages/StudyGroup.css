@@ -4,12 +4,17 @@
   height: 100%;
 }
 
+.group_leftBar {
+  background-color: whitesmoke;
+}
+
 .group_leftBar,
 .group_rightBar {
   flex: 1;
-  height: 85vh;
+  height: 89vh;
   top: 0;
   position: sticky;
+  background-color: whitesmoke;
 }
 
 .group_feed {
@@ -17,7 +22,7 @@
   min-width: 50vh;
   background-color: whitesmoke;
   padding: 0px;
-  height: 85vh;
+  height: 89vh;
   overflow: auto;
 }
 
@@ -25,7 +30,7 @@
   min-width: 50vh;
   background-color: whitesmoke;
   padding: 0px;
-  height: 65vh;
+  height: 69vh;
   min-height: 65vh;
   overflow: auto;
 }
@@ -38,5 +43,33 @@
   margin-top: 1vh;
   padding-left: 60px;
   padding-right: 60px;
-  background-color: white;
+  background-color: whitesmoke;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  background-color: whitesmoke;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+.noPostNotice {
+  margin-top: 12px;
+  margin-left: 60px;
+  margin-right: 60px;
+  padding: 20px;
+}
+
+.noPost_title {
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+.noPost_content {
+  margin-top: 10px;
+  max-height: 40vh;
+  overflow: auto;
+  white-space: pre-wrap;
 }

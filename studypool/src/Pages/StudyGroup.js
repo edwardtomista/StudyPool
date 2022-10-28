@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Post from "../Components/StudyGroup/Post";
 import "./StudyGroup.css";
 import List from "@mui/material/List";
@@ -11,10 +11,12 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import { Divider, TextField } from "@mui/material";
+import Paper from "@mui/material/Paper";
 
 const StudyGroup = () => {
   const [postInput, setPostInput] = useState("");
-  let memberList = [
+  const [posts, setPosts] = useState([]);
+  const [memberList, setMemberList] = useState([
     "Alan",
     "Edward",
     "Josh",
@@ -27,8 +29,8 @@ const StudyGroup = () => {
     "Edward",
     "Josh",
     "Junyu",
-  ];
-  let myGroups = [
+  ]);
+  const [myGroups, setMyGroups] = useState([
     "Procrastination Classroom",
     "Our Last Hope",
     "Pain",
@@ -41,23 +43,21 @@ const StudyGroup = () => {
     "Procrastination Classroom",
     "Procrastination Classroom",
     "Procrastination Classroom",
-  ];
-  let testInfo = [
-    "Test 1",
-    "Test 1",
-    "Test 1",
-    "Test 1",
-    "Test 1",
-    "Test 1",
-    "Test 1",
-    "Test 1",
-    "Test 1",
-    "Test 1",
-    "Test 1",
-    "Test 1",
-    "Test 1",
-    "Test 1",
-  ];
+  ]);
+  const handleSubmit = () => {
+    if (postInput) {
+      setPosts([
+        {
+          author: "John Doe",
+          content: postInput,
+        },
+        ...posts,
+      ]);
+      setPostInput("");
+      console.log(posts);
+    }
+  };
+
   return (
     <div className="group_container">
       <div className="group_leftBar">
@@ -88,20 +88,52 @@ const StudyGroup = () => {
       </div>
       <div className="group_feed">
         <div className="group_postList">
-          {testInfo.map((info) => {
-            return <Post info={info} />;
-          })}
+          {posts.length > 0 ? (
+            posts.map((post) => {
+              return (
+                <Post
+                  author={post.author}
+                  content={post.content}
+                  comments={[]}
+                />
+              );
+            })
+          ) : (
+            <Paper className="noPostNotice" elevation="5">
+              <div className="noPost_title">Welcome!</div>
+              <Divider />
+              <div className="noPost_content">
+                There are no recent posts in this study group.
+              </div>
+            </Paper>
+          )}
         </div>
         <div className="group_postCreate">
           <Divider />
           <TextField
+            multiline
             id="createPostField"
-            label="Create A Post"
+            placeholder="Create A Post"
             value={postInput}
             size="medium"
-            onChange={(e) => setPostInput(e.value)}
-            style={{ width: "100%", marginTop: "10px" }}
+            rows={4}
+            onChange={(e) => setPostInput(e.target.value)}
+            style={{
+              width: "100%",
+              marginTop: "10px",
+              maxHeight: "20vh",
+              backgroundColor: "white",
+            }}
           />
+          <Button
+            variant="contained"
+            style={{ width: "100%" }}
+            onClick={() => {
+              handleSubmit();
+            }}
+          >
+            Submit
+          </Button>
         </div>
       </div>
       <div className="group_rightBar">

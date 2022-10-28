@@ -4,7 +4,6 @@
   margin-right: 60px;
   margin-bottom: 12px;
   padding: 20px;
-  min-height: 120px;
 }
 
 .post_author {
@@ -15,9 +14,16 @@
 .post_content {
   margin-top: 10px;
   margin-bottom: 10px;
+  max-height: 40vh;
+  overflow: auto;
+  white-space: pre-wrap;
 }
 
-.post_comments {
-  margin-left: -7px;
-  margin-top: 10px;
+.comments_container {
+  margin-top: 12px;
+  max-height: 40vh;
+  overflow: auto;
+  white-space: pre-wrap;
+  padding: 20px;
 }
+
