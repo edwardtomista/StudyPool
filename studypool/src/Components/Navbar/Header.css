@@ -13,11 +13,10 @@
     object-fit: contain;
     height: 100px;
     margin-left: 20px;
-
 }
 
 .header__center {
-    display: flex;  /* Will align things horizontally */
+    display: flex; /* Will align things horizontally */
     flex: 1;
     align-items: center;
     max-width: fit-content;
