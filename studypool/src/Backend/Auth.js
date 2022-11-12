@@ -65,9 +65,9 @@ export const login = (email, password) => {
     });
 };
 
-export const getSession = async () => {
+export const getSession = () => {
     const user = UserPool.getCurrentUser();
-    return await new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         if (user) {
             user.getSession((err, session) => {
                 if (err) {

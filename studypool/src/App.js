@@ -13,7 +13,12 @@ import { UserContext } from "./UserContext";
 import { getSession } from "./Backend/Auth";
 
 function App() {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState({
+        id: "",
+        fname: "",
+        lname: "",
+        email: "",
+    });
     // every time the page reloads run this
     // get whether or not the user is logged in or not
 
@@ -21,7 +26,6 @@ function App() {
         getSession()
             .then((session) => {
                 setUser({
-                    status: true,
                     id: session.idToken.payload.sub,
                     fname: session.idToken.payload.given_name,
                     lname: session.idToken.payload.family_name,
@@ -30,6 +34,7 @@ function App() {
             })
             .catch((err) => {});
     }, []);
+
     return (
         <UserContext.Provider value={{ user, setUser }}>
             <div className="App">

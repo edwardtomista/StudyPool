@@ -31,7 +31,7 @@ function Header() {
                 <SearchIcon />
             </div>
             <div className="header__right">
-                {user ? (
+                {user.id ? (
                     <>
                         <IconButton size="small" onClick={() => handleLogout()}>
                             <p>Logout</p>
