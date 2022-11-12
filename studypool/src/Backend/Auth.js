@@ -77,7 +77,7 @@ export const getSession = () => {
                 }
             });
         } else {
-            reject();
+            reject(true);
         }
     });
 };
