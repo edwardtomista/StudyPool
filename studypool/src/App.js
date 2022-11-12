@@ -6,7 +6,7 @@ import SignUp from "./Pages/Signup";
 import StudyGroup from "./Pages/StudyGroup";
 import Catalog from "./Pages/Catalog";
 import Groups from "./Pages/Groups";
-import Account from './Pages/Account';
+import Account from "./Pages/Account";
 import { Route, Routes } from "react-router-dom";
 
 function App() {
