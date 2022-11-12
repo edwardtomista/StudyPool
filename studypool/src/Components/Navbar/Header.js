@@ -12,7 +12,12 @@ function Header() {
     const { user, setUser } = useContext(UserContext);
     const handleLogout = () => {
         logout();
-        setUser(null);
+        setUser({
+            id: "",
+            fname: "",
+            lname: "",
+            email: "",
+        });
         navigate("/");
     };
     return (
