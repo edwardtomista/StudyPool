@@ -62,6 +62,16 @@ export default function Login() {
                     lname: data.idToken.payload.family_name,
                     email: data.idToken.payload.email,
                 });
+                
+                fetch("http://localhost:3001/id", {
+                    method : "POST",
+                    headers : {
+                        "content-type" : "application/json",
+                    },
+                    body : JSON.stringify({
+                        email: data.idToken.payload.email,
+                    })
+                });
                 navigate("/");
             })
             .catch((err) => {
@@ -71,6 +81,7 @@ export default function Login() {
                     console.log("Incorrect username/password");
                 }
             });
+
     };
 
     return (

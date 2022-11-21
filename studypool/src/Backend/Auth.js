@@ -5,6 +5,7 @@ import {
 } from "amazon-cognito-identity-js";
 import UserPool from "./UserPool.js";
 
+// Cognito should set the attributes (family_name, given_name, and email )
 export const signup = (fname, lname, email, password) => {
     let attributeList = [];
     attributeList.push(
