@@ -30,12 +30,11 @@
     "nodemon": "2.0.20"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "backend": "nodemon src/Backend/server.js",
+    "start": "concurrently \"npm run backend\" \"react-scripts start\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "backend": "nodemon src/Backend/server.js",
-    "dev": "concurrently \"npm run backend\" \"npm start\""
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
