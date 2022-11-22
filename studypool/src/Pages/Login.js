@@ -17,6 +17,8 @@ import { login } from "../Backend/Auth";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../UserContext";
 
+import { backend_url } from "../links";
+
 function Copyright(props) {
     return (
         <Typography
@@ -63,7 +65,7 @@ export default function Login() {
                     email: data.idToken.payload.email,
                 });
                 
-                fetch("http://localhost:3001/id", {
+                fetch(backend_url + "/id", {
                     method : "POST",
                     headers : {
                         "content-type" : "application/json",
@@ -72,6 +74,7 @@ export default function Login() {
                         email: data.idToken.payload.email,
                     })
                 });
+
                 navigate("/");
             })
             .catch((err) => {

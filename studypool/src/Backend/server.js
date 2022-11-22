@@ -22,16 +22,30 @@ app.get('/', (req, res) =>{
     res.send('Successfully Connected!')
 })
 
+app.get('/users', (req, res)=>{
+    connection.query("SELECT * FROM user", 
+    function(err, rows, fields) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            console.log("User info is: ", rows);
+            res.send(rows);
+        };
+    });
+});
+
 app.post("/id", (req,res)=>{
-    const test = req.body.email;
-    console.log(test);
-    connection.query("INSERT INTO test (test_body) VALUES (?)", [test],
+    const user = req.body.email;
+    console.log(user);
+    connection.query("INSERT INTO user (email) VALUES (?)", [user],
     function(err, rows, fields) {
         if(err) {
             console.log(err);
         }
         else {
             console.log(rows);
+            console.log(user);
         };
     });
 });
