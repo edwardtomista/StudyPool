@@ -14,6 +14,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { signup } from "../Backend/Auth";
 import { useNavigate } from "react-router-dom";
+import { backend_url } from "../links";
 
 function Copyright(props) {
     return (
@@ -46,6 +47,10 @@ export default function SignUp() {
             email: data.get("email"),
             password: data.get("password"),
         });
+
+        const fName = data.get("firstName");
+        const lName = data.get("lastName");
+
         signup(
             data.get("firstName"),
             data.get("lastName"),
@@ -55,6 +60,20 @@ export default function SignUp() {
             .then((data) => {
                 console.log("it work");
                 console.log(data);
+
+                fetch(backend_url + "/signup", {
+                    method : "POST",
+                    headers : {
+                        "content-type" : "application/json",
+                    },
+                    body : JSON.stringify({
+                        id: data.userSub,
+                        f_name: fName,
+                        l_name: lName,
+                        email: data.user.username,
+                    })
+                });
+
                 navigate("/Login");
                 //Redirect to a page telling the user to check for verification email
                 //Redirect to login page after 3-5 seconds probably?
@@ -64,9 +83,6 @@ export default function SignUp() {
                 console.log(err);
                 //Can try error handling here
             });
-        
-
-        
     };
 
     return (

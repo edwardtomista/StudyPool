@@ -9,7 +9,7 @@ const connection = mysql.createConnection({
     host : "localhost",
     user : "root",
     password : "password",
-    database : "user_db",
+    database : "studypool",
 });
 
 connection.connect();
@@ -35,10 +35,10 @@ app.get('/users', (req, res)=>{
     });
 });
 
-app.post("/id", (req,res)=>{
-    const user = req.body.email;
+app.post("/signup", (req,res)=>{
+    const user = req.body;
     console.log(user);
-    connection.query("INSERT INTO user (email) VALUES (?)", [user],
+    connection.query("INSERT IGNORE INTO user (id, email, f_name, l_name) VALUES (?, ?, ?, ?)", [user.id, user.email, user.f_name, user.l_name],
     function(err, rows, fields) {
         if(err) {
             console.log(err);

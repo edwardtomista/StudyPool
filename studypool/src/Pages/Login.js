@@ -64,16 +64,6 @@ export default function Login() {
                     lname: data.idToken.payload.family_name,
                     email: data.idToken.payload.email,
                 });
-                
-                fetch(backend_url + "/id", {
-                    method : "POST",
-                    headers : {
-                        "content-type" : "application/json",
-                    },
-                    body : JSON.stringify({
-                        email: data.idToken.payload.email,
-                    })
-                });
 
                 navigate("/");
             })
