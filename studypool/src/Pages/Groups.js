@@ -23,7 +23,7 @@ export default function Groups() {
             .then((data) => {
                 setGroups(data);
             });
-          console.log(user)
+        console.log(user.id);
     }, []);
 
     const handleCreate = () => {
@@ -36,9 +36,28 @@ export default function Groups() {
                 course_id: 0, //THIS IS TEMPORARY, CHANGE LATER
                 title: "Test Title",
                 subject: "Test Subject",
+                creator_id: user.id,
                 creator_name: user.fname + " " + user.lname,
             }),
-        });
+        })
+            .then((groupid) => {
+                return groupid.json();
+            })
+            .then((gid) => {
+                //This adds the user to the newly created group in usergroup table.
+                //We need to do .then 2 times to ensure we get the right data.
+                fetch(backend_url + "/joinGroup", {
+                    method: "POST",
+                    headers: {
+                        "content-type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        id: Number(gid),
+                        user_id: user.id,
+                        course_id: 0, //THIS IS TEMPORARY, CHANGE LATER
+                    }),
+                });
+            });
         //This setgroups is here to update the group list right away. On refresh the group displayed
         //should be the same.
         setGroups([
@@ -55,7 +74,11 @@ export default function Groups() {
     return (
         <div className="tables">
             <h1>CS 46A</h1>
-            <Button variant="contained" disabled={!user.id} onClick={() => handleCreate()}>
+            <Button
+                variant="contained"
+                disabled={!user.id}
+                onClick={() => handleCreate()}
+            >
                 Create
             </Button>
             <TableContainer component={Paper}>
@@ -88,8 +111,18 @@ export default function Groups() {
                                     {row.creator_name}
                                 </TableCell>
                                 <TableCell align="right">
-                                    <Button disabled={!user.id} variant="contained">Join</Button>
-                                    <Button disabled={!user.id} variant="contained">Leave</Button>
+                                    <Button
+                                        disabled={!user.id}
+                                        variant="contained"
+                                    >
+                                        Join
+                                    </Button>
+                                    <Button
+                                        disabled={!user.id}
+                                        variant="contained"
+                                    >
+                                        Leave
+                                    </Button>
                                 </TableCell>
                             </TableRow>
                         ))}
