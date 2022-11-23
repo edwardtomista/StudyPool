@@ -50,6 +50,36 @@ app.post("/signup", (req,res)=>{
     });
 });
 
+app.post("/createGroup", (req,res)=>{
+    const data = req.body;
+    console.log(data);
+    //data.subject, data.creator_id, data.creator_name
+    connection.query("INSERT IGNORE INTO studygroup (course_id, title, subject, creator_id, creator_name) VALUES (?, ?, ?, ?, ?)", 
+                    [data.course_id, data.title, data.subject, data.creator_id, data.creator_name],
+    function(err, rows, fields) {
+        if(err) {
+            console.log(err);
+        }
+        else {
+            console.log(rows);
+            console.log(data);
+        };
+    });
+});
+
+app.get('/getGroups', (req, res)=>{
+    connection.query("SELECT * FROM studygroup", 
+    function(err, data) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            console.log("Results are: ", data);
+            res.send(data);
+        };
+    });
+});
+
 app.listen(port, ()=>{
     console.log(`Connect at http://localhost:${port}`);
 })

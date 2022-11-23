@@ -9,6 +9,7 @@ import Avatar from "@mui/material/Avatar";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Typography from "@mui/material/Typography";
 import { UserContext } from "../UserContext";
+import { useNavigate } from "react-router-dom";
 
 function createData(courceName, groupName) {
     return { courceName, groupName };
@@ -23,95 +24,102 @@ const groups = [
 
 export default function Account() {
     const { user, setUser } = useContext(UserContext);
+    const navigate = useNavigate();
     return (
         <div className="tables">
-            <h1>Account Info</h1>
-            <Container component={Paper} sx={{ marginBottom: "50px" }}>
-                <List sx={{ minWidth: 500 }}>
-                    <ListItem>
-                        <Typography
-                            sx={{
-                                fontSize: 15,
-                                marginTop: "1%",
-                                width: "100px",
-                            }}
-                        >
-                            First Name:
-                        </Typography>
-                        <Typography
-                            sx={{
-                                marginLeft: "5%",
-                                fontSize: 15,
-                                marginTop: "1%",
-                            }}
-                        >
-                            {user.fname}
-                        </Typography>
-                    </ListItem>
-
-                    <ListItem>
-                        <Typography
-                            sx={{
-                                fontSize: 15,
-                                marginTop: "1%",
-                                width: "100px",
-                            }}
-                        >
-                            Last Name:
-                        </Typography>
-                        <Typography
-                            sx={{
-                                marginLeft: "5%",
-                                fontSize: 15,
-                                marginTop: "1%",
-                            }}
-                        >
-                            {user.lname}
-                        </Typography>
-                    </ListItem>
-
-                    <ListItem>
-                        <Typography
-                            sx={{
-                                fontSize: 15,
-                                marginTop: "1%",
-                                width: "100px",
-                            }}
-                        >
-                            Email:
-                        </Typography>
-                        <Typography
-                            sx={{
-                                marginLeft: "5%",
-                                fontSize: 15,
-                                marginTop: "1%",
-                            }}
-                        >
-                            {user.email}
-                        </Typography>
-                    </ListItem>
-                </List>
-            </Container>
-            <h1>My Group</h1>
-            <Container component={Paper}>
-                <List sx={{ minWidth: 500 }}>
-                    {groups.map(function (group) {
-                        return (
+            {user.id ? (
+                <>
+                    <h1>Account Info</h1>
+                    <Container component={Paper} sx={{ marginBottom: "50px" }}>
+                        <List sx={{ minWidth: 500 }}>
                             <ListItem>
-                                <ListItemAvatar>
-                                    <Avatar>
-                                        <AccountCircleIcon />
-                                    </Avatar>
-                                </ListItemAvatar>
-                                <ListItemText
-                                    primary={group.groupName}
-                                    secondary={group.courceName}
-                                />
+                                <Typography
+                                    sx={{
+                                        fontSize: 15,
+                                        marginTop: "1%",
+                                        width: "100px",
+                                    }}
+                                >
+                                    First Name:
+                                </Typography>
+                                <Typography
+                                    sx={{
+                                        marginLeft: "5%",
+                                        fontSize: 15,
+                                        marginTop: "1%",
+                                    }}
+                                >
+                                    {user.fname}
+                                </Typography>
                             </ListItem>
-                        );
-                    })}
-                </List>
-            </Container>
+
+                            <ListItem>
+                                <Typography
+                                    sx={{
+                                        fontSize: 15,
+                                        marginTop: "1%",
+                                        width: "100px",
+                                    }}
+                                >
+                                    Last Name:
+                                </Typography>
+                                <Typography
+                                    sx={{
+                                        marginLeft: "5%",
+                                        fontSize: 15,
+                                        marginTop: "1%",
+                                    }}
+                                >
+                                    {user.lname}
+                                </Typography>
+                            </ListItem>
+
+                            <ListItem>
+                                <Typography
+                                    sx={{
+                                        fontSize: 15,
+                                        marginTop: "1%",
+                                        width: "100px",
+                                    }}
+                                >
+                                    Email:
+                                </Typography>
+                                <Typography
+                                    sx={{
+                                        marginLeft: "5%",
+                                        fontSize: 15,
+                                        marginTop: "1%",
+                                    }}
+                                >
+                                    {user.email}
+                                </Typography>
+                            </ListItem>
+                        </List>
+                    </Container>
+                    <h1>My Group</h1>
+                    <Container component={Paper}>
+                        <List sx={{ minWidth: 500 }}>
+                            {groups.map(function (group) {
+                                return (
+                                    <ListItem>
+                                        <ListItemAvatar>
+                                            <Avatar>
+                                                <AccountCircleIcon />
+                                            </Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText
+                                            primary={group.groupName}
+                                            secondary={group.courceName}
+                                        />
+                                    </ListItem>
+                                );
+                            })}
+                        </List>
+                    </Container>
+                </>
+            ) : (
+                navigate("/")
+            )}
         </div>
     );
 }
