@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import List from "@mui/material/List";
@@ -9,6 +9,7 @@ import Avatar from "@mui/material/Avatar";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Typography from "@mui/material/Typography";
 import { UserContext } from "../UserContext";
+import { backend_url } from "../links";
 import { Navigate } from "react-router-dom";
 
 function createData(courseName, groupName) {
@@ -24,7 +25,20 @@ const groups = [
 
 export default function Account() {
     const { user, setUser } = useContext(UserContext);
-    const [userGroups, setUserGroups] = useState([]);
+    const [groups, setGroups] = useState([]);
+ 
+    useEffect(() => {
+        fetch(backend_url + "/getAccountInfo?id=" + user.id, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }).then((res) => {
+            return res.json();
+        }).then((data) => {
+            console.log(data)
+        });
+    }, []);
 
     return (
         <div className="tables">

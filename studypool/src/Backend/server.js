@@ -34,14 +34,19 @@ app.get("/users", (req, res) => {
 });
 
 app.get("/getAccountInfo", (req, res) => {
-    const user = req.body;
-    connection.query("SELECT * FROM usergroup where user_id = ?", [user.id], function (err, data) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.send(data.json());
+    const id = req.query.id;
+    //right now the below query is wrong
+    connection.query(
+        "SELECT * FROM usergroup where user_id = ?",
+        [id],
+        function (err, data) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(data);
+            }
         }
-    });
+    );
 });
 
 app.post("/signup", (req, res) => {
