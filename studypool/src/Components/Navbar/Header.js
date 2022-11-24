@@ -18,7 +18,7 @@ function Header() {
             lname: "",
             email: "",
         });
-        //navigate("/");
+        navigate("/");
     };
     return (
         <div className="header">

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import List from "@mui/material/List";
@@ -9,10 +9,10 @@ import Avatar from "@mui/material/Avatar";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Typography from "@mui/material/Typography";
 import { UserContext } from "../UserContext";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
-function createData(courceName, groupName) {
-    return { courceName, groupName };
+function createData(courseName, groupName) {
+    return { courseName, groupName };
 }
 
 const groups = [
@@ -24,7 +24,8 @@ const groups = [
 
 export default function Account() {
     const { user, setUser } = useContext(UserContext);
-    const navigate = useNavigate();
+    const [userGroups, setUserGroups] = useState([]);
+
     return (
         <div className="tables">
             {user.id ? (
@@ -109,7 +110,7 @@ export default function Account() {
                                         </ListItemAvatar>
                                         <ListItemText
                                             primary={group.groupName}
-                                            secondary={group.courceName}
+                                            secondary={group.courseName}
                                         />
                                     </ListItem>
                                 );
@@ -118,7 +119,7 @@ export default function Account() {
                     </Container>
                 </>
             ) : (
-                navigate("/")
+                <Navigate to="/Login" />
             )}
         </div>
     );
