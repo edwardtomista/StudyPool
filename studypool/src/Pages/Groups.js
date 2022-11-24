@@ -132,6 +132,7 @@ export default function Groups() {
                         {groups.map((row) => (
                             <TableRow
                                 key={row.title}
+                                hover={true}
                                 sx={{
                                     "&:last-child td, &:last-child th": {
                                         border: 0,
