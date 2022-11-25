@@ -11,30 +11,39 @@ import Typography from "@mui/material/Typography";
 import { UserContext } from "../UserContext";
 import { backend_url } from "../links";
 import { Navigate } from "react-router-dom";
+import { ListItemButton } from "@mui/material";
 
 export default function Account() {
     const { user, setUser } = useContext(UserContext);
     const [groups, setGroups] = useState([]);
- 
+
     useEffect(() => {
         fetch(backend_url + "/getAccountInfo?id=" + user.id, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
             },
-        }).then((res) => {
-            return res.json();
-        }).then((data) => {
-            setGroups(data);
-        });
+        })
+            .then((res) => {
+                return res.json();
+            })
+            .then((data) => {
+                setGroups(data);
+            });
     }, []);
 
     return (
         <div className="tables">
             {user.id ? (
                 <>
-                    <h1>Account Info</h1>
-                    <Container component={Paper} sx={{ marginBottom: "50px" }}>
+                    <Container
+                        component={Paper}
+                        sx={{
+                            marginBottom: "50px",
+                            backgroundColor: "whitesmoke",
+                        }}
+                    >
+                        <h1>Account Info</h1>
                         <List sx={{ minWidth: 500 }}>
                             <ListItem>
                                 <Typography
@@ -100,8 +109,15 @@ export default function Account() {
                             </ListItem>
                         </List>
                     </Container>
-                    <h1>My Groups</h1>
-                    <Container component={Paper}>
+
+                    <Container
+                        component={Paper}
+                        sx={{
+                            marginBottom: "50px",
+                            backgroundColor: "whitesmoke",
+                        }}
+                    >
+                        <h1>My Groups</h1>
                         <List sx={{ minWidth: 500 }}>
                             {groups.map(function (group) {
                                 return (
@@ -111,10 +127,16 @@ export default function Account() {
                                                 <AccountCircleIcon />
                                             </Avatar>
                                         </ListItemAvatar>
-                                        <ListItemText
-                                            primary={group.title}
-                                            secondary={group.course_code+": "+group.subject}
-                                        />
+                                        <ListItemButton divider={true}>
+                                            <ListItemText
+                                                primary={group.title}
+                                                secondary={
+                                                    group.course_code +
+                                                    ": " +
+                                                    group.subject
+                                                }
+                                            />
+                                        </ListItemButton>
                                     </ListItem>
                                 );
                             })}
