@@ -55,8 +55,8 @@ app.get("/getAccountInfo", (req, res) => {
     const id = req.query.id;
     //right now the below query is wrong
     connection.query(
-        "SELECT * FROM usergroup where user_id = ?",
-        [id],
+        "SELECT title, subject, course_code FROM (usergroup join course on usergroup.course_id=course.id join studygroup on studygroup.creator_id=? and usergroup.id=studygroup.id) where user_id=?",
+        [id, id],
         function (err, data) {
             if (err) {
                 console.log(err);
@@ -89,7 +89,7 @@ app.post("/createGroup", (req, res) => {
     connection.query(
         "INSERT IGNORE INTO studygroup (course_id, title, subject, creator_id, creator_name) VALUES (?, ?, ?, ?, ?)",
         [
-            data.course_id,
+            Number(data.course_id),
             data.title,
             data.subject,
             data.creator_id,
@@ -109,7 +109,7 @@ app.post("/joinGroup", (req, res) => {
     const data = req.body;
     connection.query(
         "INSERT IGNORE INTO usergroup (id, user_id, course_id) VALUES (?, ?, ?)",
-        [data.id, data.user_id, data.course_id],
+        [data.id, data.user_id, Number(data.course_id)],
         function (err, results, fields) {
             if (err) {
                 console.log(err);
@@ -121,7 +121,8 @@ app.post("/joinGroup", (req, res) => {
 });
 
 app.get("/getGroups", (req, res) => {
-    connection.query("SELECT * FROM studygroup", function (err, data) {
+    const cid = req.query.cid;
+    connection.query("SELECT * FROM studygroup where course_id = ?", [cid], function (err, data) {
         if (err) {
             console.log(err);
         } else {

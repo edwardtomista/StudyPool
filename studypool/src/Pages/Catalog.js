@@ -11,12 +11,14 @@ import TablePagination from "@mui/material/TablePagination";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import { backend_url } from "../links";
+import { useNavigate } from "react-router-dom";
 
 export default function Catalog() {
     const [courses, setCourses] = useState([]);
     const [courseCount, setCourseCount] = useState(100);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const navigate = useNavigate();
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -24,13 +26,16 @@ export default function Catalog() {
         setRowsPerPage(parseInt(e.target.value));
         setPage(0);
     };
+    const handleClick = (courseId) => {
+      navigate("/Groups", {state:{cid: courseId}});
+    };
     useEffect(() => {
         fetch(backend_url + "/courseCount")
             .then((res) => {
                 return res.json();
             })
             .then((data) => {
-                setCourseCount(data[0]["count(*)"])
+                setCourseCount(data[0]["count(*)"]);
             });
         fetch(
             backend_url +
@@ -91,7 +96,12 @@ export default function Catalog() {
                                     {row.course_name}
                                 </TableCell>
                                 <TableCell align="right">
-                                    <Button variant="contained">Select</Button>
+                                    <Button
+                                        variant="contained"
+                                        onClick={() => handleClick(row.id)}
+                                    >
+                                        Select
+                                    </Button>
                                 </TableCell>
                                 {/* <TableCell align="right">{row.time}</TableCell>
               <TableCell align="right">{row.instructor}</TableCell> */}

@@ -12,17 +12,6 @@ import { UserContext } from "../UserContext";
 import { backend_url } from "../links";
 import { Navigate } from "react-router-dom";
 
-function createData(courseName, groupName) {
-    return { courseName, groupName };
-}
-
-const groups = [
-    createData("CS 46A", "CS 46A fall 2022"),
-    createData("ENGR 10", "Engineering intro group"),
-    createData("MATH 30", "Math?"),
-    createData("ENGL 1A", "ENGLISH!!"),
-];
-
 export default function Account() {
     const { user, setUser } = useContext(UserContext);
     const [groups, setGroups] = useState([]);
@@ -36,7 +25,7 @@ export default function Account() {
         }).then((res) => {
             return res.json();
         }).then((data) => {
-            console.log(data)
+            setGroups(data);
         });
     }, []);
 
@@ -111,7 +100,7 @@ export default function Account() {
                             </ListItem>
                         </List>
                     </Container>
-                    <h1>My Group</h1>
+                    <h1>My Groups</h1>
                     <Container component={Paper}>
                         <List sx={{ minWidth: 500 }}>
                             {groups.map(function (group) {
@@ -123,8 +112,8 @@ export default function Account() {
                                             </Avatar>
                                         </ListItemAvatar>
                                         <ListItemText
-                                            primary={group.groupName}
-                                            secondary={group.courseName}
+                                            primary={group.title}
+                                            secondary={group.course_code+": "+group.subject}
                                         />
                                     </ListItem>
                                 );
