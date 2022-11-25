@@ -51,11 +51,11 @@ app.get("/getAllUsers", (req, res) => {
     });
 });
 
+//Used to display groups in account page.
 app.get("/getAccountInfo", (req, res) => {
     const id = req.query.id;
-    //right now the below query is wrong
     connection.query(
-        "SELECT title, subject, course_code FROM (usergroup join course on usergroup.course_id=course.id join studygroup on studygroup.creator_id=? and usergroup.id=studygroup.id) where user_id=?",
+        "SELECT title, subject, course_code, usergroup.id FROM (usergroup join course on usergroup.course_id=course.id join studygroup on studygroup.creator_id=? and usergroup.id=studygroup.id) where user_id=?",
         [id, id],
         function (err, data) {
             if (err) {
@@ -84,6 +84,7 @@ app.post("/signup", (req, res) => {
     );
 });
 
+//Used in /groups to create a new group
 app.post("/createGroup", (req, res) => {
     const data = req.body;
     connection.query(
@@ -105,6 +106,7 @@ app.post("/createGroup", (req, res) => {
     );
 });
 
+//Used in /Groups to join a group
 app.post("/joinGroup", (req, res) => {
     const data = req.body;
     connection.query(
@@ -120,6 +122,7 @@ app.post("/joinGroup", (req, res) => {
     );
 });
 
+//Displays all groups in /Groups corresponding to a course
 app.get("/getGroups", (req, res) => {
     const cid = req.query.cid;
     connection.query("SELECT * FROM studygroup where course_id = ?", [cid], function (err, data) {
@@ -132,6 +135,7 @@ app.get("/getGroups", (req, res) => {
     });
 });
 
+//Gets all courses to display in /Catalog
 app.get("/getCourses", (req, res) => {
     const start = Number(req.query.start);
     const rowsPerPage = Number(req.query.rowsPerPage);
@@ -144,6 +148,7 @@ app.get("/getCourses", (req, res) => {
     });
 });
 
+//Used in /Catalog for pagination number
 app.get("/courseCount", (req, res) => {
     connection.query("select count(*) from course", function (err,data) {
         if (err) {

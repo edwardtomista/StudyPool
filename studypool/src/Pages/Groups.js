@@ -153,10 +153,10 @@ export default function Groups(props) {
                 </Dialog>
             </div>
 
-            <TableContainer component={Paper}>
+            <TableContainer component={Paper} sx={{marginTop: "10px"}}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
-                        <TableRow>
+                        <TableRow sx={{backgroundColor: "whitesmoke"}}>
                             <TableCell>Title</TableCell>
                             <TableCell align="right">Subject</TableCell>
                             <TableCell align="right">Host</TableCell>
@@ -193,6 +193,7 @@ export default function Groups(props) {
                                     <Button
                                         disabled={!user.id}
                                         variant="contained"
+                                        sx={{marginLeft:"2px"}}
                                     >
                                         Leave
                                     </Button>

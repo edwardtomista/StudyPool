@@ -26,8 +26,8 @@ export default function Catalog() {
         setRowsPerPage(parseInt(e.target.value));
         setPage(0);
     };
-    const handleClick = (courseId) => {
-      navigate("/Groups", {state:{cid: courseId}});
+    const handleClick = (courseId, courseCode) => {
+      navigate("/Groups", {state:{cid: courseId, cname: courseCode}});
     };
     useEffect(() => {
         fetch(backend_url + "/courseCount")
@@ -64,7 +64,7 @@ export default function Catalog() {
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
-                        <TableRow selected={true}>
+                        <TableRow sx={{backgroundColor: "whitesmoke"}}>
                             <TableCell style={{ width: 100 }}>
                                 Section
                             </TableCell>
@@ -98,7 +98,7 @@ export default function Catalog() {
                                 <TableCell align="right">
                                     <Button
                                         variant="contained"
-                                        onClick={() => handleClick(row.id)}
+                                        onClick={() => handleClick(row.id, row.course_code)}
                                     >
                                         Select
                                     </Button>
