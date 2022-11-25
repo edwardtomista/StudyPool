@@ -24,6 +24,7 @@ import { create } from "@mui/material/styles/createTransitions";
 export default function Groups(props) {
     const { user, setUser } = useContext(UserContext);
     const [groups, setGroups] = useState([]); //title, subject, host
+    const [userGroups, setUserGroups] = useState([]); //title, subject, host
     const [open, setOpen] = useState(false); //Used to open create box
     const [createTitle, setCreateTitle] = useState(""); //Used for creating group
     const [createSubject, setCreateSubject] = useState(""); //Used for creating group
@@ -32,6 +33,7 @@ export default function Groups(props) {
     //location.state.cid is the courseID we are looking at
 
     useEffect(() => {
+        //This fetches all studygroups to display for the current course we are looking at
         fetch(backend_url + "/getGroups?cid=" + location.state.cid, {
             method: "GET",
             headers: {
@@ -44,7 +46,32 @@ export default function Groups(props) {
             .then((data) => {
                 setGroups(data);
             });
-    }, []);
+        //This fetches all of the current user's study groups in this course
+        fetch(
+            backend_url +
+                "/getUserGroups?cid=" +
+                location.state.cid +
+                "&id=" +
+                user.id,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        )
+            .then((res) => {
+                return res.json();
+            })
+            .then((data) => {
+                let curUserGroups = [];
+                for (let row of data) {
+                    curUserGroups.push(row.id)
+                }
+                setUserGroups(curUserGroups);
+            });
+        
+    }, [groups]);
 
     const handleCreate = () => {
         setOpen(false);
@@ -92,6 +119,24 @@ export default function Groups(props) {
         setCreateSubject("");
     };
 
+    const handleJoin = (gid) => {
+        fetch(backend_url + "/joinGroup", {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify({
+                id: Number(gid),
+                user_id: user.id,
+                course_id: location.state.cid,
+            }),
+        });
+    }
+
+    const handleLeave = () => {
+
+    }
+
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -110,7 +155,7 @@ export default function Groups(props) {
             >
                 Back
             </Button>
-            <h1>CS 46A</h1>
+            <h1>{location.state.cname}</h1>
             <div>
                 <Button variant="outlined" onClick={handleClickOpen}>
                     Create New Group
@@ -153,10 +198,10 @@ export default function Groups(props) {
                 </Dialog>
             </div>
 
-            <TableContainer component={Paper} sx={{marginTop: "10px"}}>
+            <TableContainer component={Paper} sx={{ marginTop: "10px" }}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
-                        <TableRow sx={{backgroundColor: "whitesmoke"}}>
+                        <TableRow sx={{ backgroundColor: "whitesmoke" }}>
                             <TableCell>Title</TableCell>
                             <TableCell align="right">Subject</TableCell>
                             <TableCell align="right">Host</TableCell>
@@ -185,15 +230,16 @@ export default function Groups(props) {
                                 </TableCell>
                                 <TableCell align="right">
                                     <Button
-                                        disabled={!user.id}
+                                        disabled={(!user.id) || userGroups.includes(row.id)}
                                         variant="contained"
+                                        onClick={()=>{handleJoin(row.id)}}
                                     >
                                         Join
                                     </Button>
                                     <Button
-                                        disabled={!user.id}
+                                        disabled={!user.id || !userGroups.includes(row.id)}
                                         variant="contained"
-                                        sx={{marginLeft:"2px"}}
+                                        sx={{ marginLeft: "2px" }}
                                     >
                                         Leave
                                     </Button>

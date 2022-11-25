@@ -55,8 +55,8 @@ app.get("/getAllUsers", (req, res) => {
 app.get("/getAccountInfo", (req, res) => {
     const id = req.query.id;
     connection.query(
-        "SELECT title, subject, course_code, usergroup.id FROM (usergroup join course on usergroup.course_id=course.id join studygroup on studygroup.creator_id=? and usergroup.id=studygroup.id) where user_id=?",
-        [id, id],
+        "SELECT DISTINCT title, subject, course_code, usergroup.id FROM (usergroup join course on usergroup.course_id=course.id join studygroup on usergroup.id=studygroup.id) where user_id=?",
+        [id],
         function (err, data) {
             if (err) {
                 console.log(err);
@@ -122,10 +122,36 @@ app.post("/joinGroup", (req, res) => {
     );
 });
 
-//Displays all groups in /Groups corresponding to a course
+//Used in /Groups, /Account, and /Studygroup to leave a group
+app.post("/leaveGroup", (req, res) => {
+    const data = req.body;
+    connection.query("DELETE FROM usergroup WHERE id=? and user_id=?", [data.id], function(err, results) {
+        if (err) {
+            console.log(err);
+        } else {
+            //console.log(results)
+        }
+    });
+});
+
+//Displays all study groups in /Groups corresponding to a course
 app.get("/getGroups", (req, res) => {
     const cid = req.query.cid;
     connection.query("SELECT * FROM studygroup where course_id = ?", [cid], function (err, data) {
+        if (err) {
+            console.log(err);
+        } else {
+            //console.log("Results are: ", data);
+            res.send(data);
+        }
+    });
+});
+
+//Gets all user groups, used in /Groups to determine status of Join/Leave buttons
+app.get("/getUserGroups", (req, res) => {
+    const id = req.query.id;
+    const cid = req.query.cid;
+    connection.query("SELECT DISTINCT * FROM usergroup where user_id = ? and course_id = ?", [id, cid], function (err, data) {
         if (err) {
             console.log(err);
         } else {
