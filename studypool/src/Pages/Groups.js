@@ -133,8 +133,17 @@ export default function Groups(props) {
         });
     }
 
-    const handleLeave = () => {
-
+    const handleLeave = (gid) => {
+        fetch(backend_url + "/leaveGroup", {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify({
+                id: Number(gid),
+                user_id: user.id
+            }),
+        });
     }
 
     const handleClickOpen = () => {
@@ -240,6 +249,7 @@ export default function Groups(props) {
                                         disabled={!user.id || !userGroups.includes(row.id)}
                                         variant="contained"
                                         sx={{ marginLeft: "2px" }}
+                                        onClick={()=>{handleLeave(row.id)}}
                                     >
                                         Leave
                                     </Button>

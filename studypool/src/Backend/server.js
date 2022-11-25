@@ -28,17 +28,17 @@ app.get("/", (req, res) => {
 //     for (var i = 0; i < source.length; i++) {
 //         const CourseCode = source[i]['CourseCode'],
 //             CourseFullName = source[i]['CourseFullName']
-        
-//         connection.query("INSERT IGNORE INTO course (course_name, course_code) VALUES (?, ?)", 
+
+//         connection.query("INSERT IGNORE INTO course (course_name, course_code) VALUES (?, ?)",
 //         [CourseFullName, CourseCode],
 //             function (err, rows, fields) {
 //                 if (err) {
 //                     console.log(err);
-//                 } 
+//                 }
 //             }
 //         );
 //     }
-// });    
+// });
 
 app.get("/getAllUsers", (req, res) => {
     connection.query("SELECT * FROM user", function (err, rows, fields) {
@@ -125,58 +125,97 @@ app.post("/joinGroup", (req, res) => {
 //Used in /Groups, /Account, and /Studygroup to leave a group
 app.post("/leaveGroup", (req, res) => {
     const data = req.body;
-    connection.query("DELETE FROM usergroup WHERE id=? and user_id=?", [data.id], function(err, results) {
-        if (err) {
-            console.log(err);
-        } else {
-            //console.log(results)
+    connection.query(
+        "DELETE FROM usergroup WHERE id=? and user_id=?",
+        [data.id, data.user_id],
+        function (err, results) {
+            if (err) {
+                console.log(err);
+            } else {
+                //console.log(results)
+            }
         }
-    });
+    );
+    //This is to delete the entire group from the db if the user is the creator of the table
+    connection.query(
+        "DELETE FROM studygroup WHERE id=? and creator_id=?",
+        [data.id, data.user_id, data.id],
+        function (err, results) {
+            if (err) {
+                console.log(err);
+            } else {
+                //If we are deleting the group, delete all entries from usergroup of that group
+                connection.query(
+                    "DELETE FROM usergroup WHERE id=?",
+                    [data.id],
+                    function (err, results) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            
+                        }
+                    }
+                );
+            }
+        }
+    );
 });
 
 //Displays all study groups in /Groups corresponding to a course
 app.get("/getGroups", (req, res) => {
     const cid = req.query.cid;
-    connection.query("SELECT * FROM studygroup where course_id = ?", [cid], function (err, data) {
-        if (err) {
-            console.log(err);
-        } else {
-            //console.log("Results are: ", data);
-            res.send(data);
+    connection.query(
+        "SELECT * FROM studygroup where course_id = ?",
+        [cid],
+        function (err, data) {
+            if (err) {
+                console.log(err);
+            } else {
+                //console.log("Results are: ", data);
+                res.send(data);
+            }
         }
-    });
+    );
 });
 
 //Gets all user groups, used in /Groups to determine status of Join/Leave buttons
 app.get("/getUserGroups", (req, res) => {
     const id = req.query.id;
     const cid = req.query.cid;
-    connection.query("SELECT DISTINCT * FROM usergroup where user_id = ? and course_id = ?", [id, cid], function (err, data) {
-        if (err) {
-            console.log(err);
-        } else {
-            //console.log("Results are: ", data);
-            res.send(data);
+    connection.query(
+        "SELECT DISTINCT * FROM usergroup where user_id = ? and course_id = ?",
+        [id, cid],
+        function (err, data) {
+            if (err) {
+                console.log(err);
+            } else {
+                //console.log("Results are: ", data);
+                res.send(data);
+            }
         }
-    });
+    );
 });
 
 //Gets all courses to display in /Catalog
 app.get("/getCourses", (req, res) => {
     const start = Number(req.query.start);
     const rowsPerPage = Number(req.query.rowsPerPage);
-    connection.query("SELECT * FROM course order by course_name LIMIT ?,?", [start, rowsPerPage], function (err, data) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.send(data);
+    connection.query(
+        "SELECT * FROM course order by course_name LIMIT ?,?",
+        [start, rowsPerPage],
+        function (err, data) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(data);
+            }
         }
-    });
+    );
 });
 
 //Used in /Catalog for pagination number
 app.get("/courseCount", (req, res) => {
-    connection.query("select count(*) from course", function (err,data) {
+    connection.query("select count(*) from course", function (err, data) {
         if (err) {
             console.log(err);
         } else {
