@@ -152,7 +152,6 @@ app.post("/leaveGroup", (req, res) => {
                         if (err) {
                             console.log(err);
                         } else {
-                            
                         }
                     }
                 );
@@ -222,6 +221,24 @@ app.get("/courseCount", (req, res) => {
             res.send(data);
         }
     });
+});
+
+/**
+ * Stuff before will be used exclusively on each studygroup page
+ */
+app.get("/studyGroupMembers", (req, res) => {
+    const gid = req.query.gid;
+    connection.query(
+        "select f_name, l_name from (user join usergroup on user.id=usergroup.user_id) where usergroup.id=?",
+        [gid],
+        function (err, data) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(data);
+            }
+        }
+    );
 });
 
 app.listen(port, () => {

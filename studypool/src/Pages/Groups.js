@@ -18,7 +18,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Box from "@mui/material/Box";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Navigate } from "react-router-dom";
 import { create } from "@mui/material/styles/createTransitions";
 
 export default function Groups(props) {
@@ -33,44 +33,48 @@ export default function Groups(props) {
     //location.state.cid is the courseID we are looking at
 
     useEffect(() => {
-        //This fetches all studygroups to display for the current course we are looking at
-        fetch(backend_url + "/getGroups?cid=" + location.state.cid, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-            .then((res) => {
-                return res.json();
-            })
-            .then((data) => {
-                setGroups(data);
-            });
-        //This fetches all of the current user's study groups in this course
-        fetch(
-            backend_url +
-                "/getUserGroups?cid=" +
-                location.state.cid +
-                "&id=" +
-                user.id,
-            {
+        //Go to /catalog if user types /groups into url
+        if (!location.state) {
+            navigate("/catalog");
+        } else {
+            //This fetches all studygroups to display for the current course we are looking at
+            fetch(backend_url + "/getGroups?cid=" + location.state.cid, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
                 },
-            }
-        )
-            .then((res) => {
-                return res.json();
             })
-            .then((data) => {
-                let curUserGroups = [];
-                for (let row of data) {
-                    curUserGroups.push(row.id)
+                .then((res) => {
+                    return res.json();
+                })
+                .then((data) => {
+                    setGroups(data);
+                });
+            //This fetches all of the current user's study groups in this course
+            fetch(
+                backend_url +
+                    "/getUserGroups?cid=" +
+                    location.state.cid +
+                    "&id=" +
+                    user.id,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
                 }
-                setUserGroups(curUserGroups);
-            });
-        
+            )
+                .then((res) => {
+                    return res.json();
+                })
+                .then((data) => {
+                    let curUserGroups = [];
+                    for (let row of data) {
+                        curUserGroups.push(row.id);
+                    }
+                    setUserGroups(curUserGroups);
+                });
+        }
     }, [groups]);
 
     const handleCreate = () => {
@@ -131,7 +135,8 @@ export default function Groups(props) {
                 course_id: location.state.cid,
             }),
         });
-    }
+        navigate("/StudyGroup", { state: { id: gid } });
+    };
 
     const handleLeave = (gid) => {
         fetch(backend_url + "/leaveGroup", {
@@ -141,10 +146,10 @@ export default function Groups(props) {
             },
             body: JSON.stringify({
                 id: Number(gid),
-                user_id: user.id
+                user_id: user.id,
             }),
         });
-    }
+    };
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -155,110 +160,137 @@ export default function Groups(props) {
     };
 
     return (
-        <div className="tables">
-            <Button
-                variant="outlined"
-                onClick={() => {
-                    navigate("/catalog");
-                }}
-            >
-                Back
-            </Button>
-            <h1>{location.state.cname}</h1>
-            <div>
-                <Button variant="outlined" onClick={handleClickOpen}>
-                    Create New Group
-                </Button>
-                <Dialog open={open} onClose={handleClose}>
-                    <DialogTitle>Create Group</DialogTitle>
-                    <DialogContent>
-                        <Box
-                            component="form"
-                            sx={{
-                                "& > :not(style)": { m: 1, width: "25ch" },
-                            }}
-                            noValidate
-                            autoComplete="off"
-                        >
-                            <TextField
-                                id="outlined-basic"
-                                label="Title"
-                                variant="outlined"
-                                value={createTitle}
-                                onChange={(e) => {
-                                    setCreateTitle(e.target.value);
-                                }}
-                            />
-                            <TextField
-                                id="outlined-basic"
-                                label="Subject"
-                                variant="outlined"
-                                value={createSubject}
-                                onChange={(e) => {
-                                    setCreateSubject(e.target.value);
-                                }}
-                            />
-                        </Box>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleClose}>Cancel</Button>
-                        <Button onClick={handleCreate}>Create</Button>
-                    </DialogActions>
-                </Dialog>
-            </div>
+        <>
+            {location.state ? (
+                <div className="tables">
+                    <Button
+                        variant="outlined"
+                        onClick={() => {
+                            navigate("/catalog");
+                        }}
+                    >
+                        Back
+                    </Button>
+                    <h1>{location.state.cname}</h1>
+                    <div>
+                        <Button variant="outlined" onClick={handleClickOpen}>
+                            Create New Group
+                        </Button>
+                        <Dialog open={open} onClose={handleClose}>
+                            <DialogTitle>Create Group</DialogTitle>
+                            <DialogContent>
+                                <Box
+                                    component="form"
+                                    sx={{
+                                        "& > :not(style)": {
+                                            m: 1,
+                                            width: "25ch",
+                                        },
+                                    }}
+                                    noValidate
+                                    autoComplete="off"
+                                >
+                                    <TextField
+                                        id="outlined-basic"
+                                        label="Title"
+                                        variant="outlined"
+                                        value={createTitle}
+                                        onChange={(e) => {
+                                            setCreateTitle(e.target.value);
+                                        }}
+                                    />
+                                    <TextField
+                                        id="outlined-basic"
+                                        label="Subject"
+                                        variant="outlined"
+                                        value={createSubject}
+                                        onChange={(e) => {
+                                            setCreateSubject(e.target.value);
+                                        }}
+                                    />
+                                </Box>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={handleClose}>Cancel</Button>
+                                <Button onClick={handleCreate}>Create</Button>
+                            </DialogActions>
+                        </Dialog>
+                    </div>
 
-            <TableContainer component={Paper} sx={{ marginTop: "10px" }}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableHead>
-                        <TableRow sx={{ backgroundColor: "whitesmoke" }}>
-                            <TableCell>Title</TableCell>
-                            <TableCell align="right">Subject</TableCell>
-                            <TableCell align="right">Host</TableCell>
-                            <TableCell align="right">Join/Leave</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {groups.map((row) => (
-                            <TableRow
-                                key={row.title}
-                                hover={true}
-                                sx={{
-                                    "&:last-child td, &:last-child th": {
-                                        border: 0,
-                                    },
-                                }}
-                            >
-                                <TableCell component="th" scope="row">
-                                    {row.title}
-                                </TableCell>
-                                <TableCell align="right">
-                                    {row.subject}
-                                </TableCell>
-                                <TableCell align="right">
-                                    {row.creator_name}
-                                </TableCell>
-                                <TableCell align="right">
-                                    <Button
-                                        disabled={(!user.id) || userGroups.includes(row.id)}
-                                        variant="contained"
-                                        onClick={()=>{handleJoin(row.id)}}
+                    <TableContainer
+                        component={Paper}
+                        sx={{ marginTop: "10px" }}
+                    >
+                        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                            <TableHead>
+                                <TableRow
+                                    sx={{ backgroundColor: "whitesmoke" }}
+                                >
+                                    <TableCell>Title</TableCell>
+                                    <TableCell align="right">Subject</TableCell>
+                                    <TableCell align="right">Host</TableCell>
+                                    <TableCell align="right">
+                                        Join/Leave
+                                    </TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {groups.map((row) => (
+                                    <TableRow
+                                        key={row.title}
+                                        hover={true}
+                                        sx={{
+                                            "&:last-child td, &:last-child th":
+                                                {
+                                                    border: 0,
+                                                },
+                                        }}
                                     >
-                                        Join
-                                    </Button>
-                                    <Button
-                                        disabled={!user.id || !userGroups.includes(row.id)}
-                                        variant="contained"
-                                        sx={{ marginLeft: "2px" }}
-                                        onClick={()=>{handleLeave(row.id)}}
-                                    >
-                                        Leave
-                                    </Button>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </div>
+                                        <TableCell component="th" scope="row">
+                                            {row.title}
+                                        </TableCell>
+                                        <TableCell align="right">
+                                            {row.subject}
+                                        </TableCell>
+                                        <TableCell align="right">
+                                            {row.creator_name}
+                                        </TableCell>
+                                        <TableCell align="right">
+                                            <Button
+                                                disabled={
+                                                    !user.id ||
+                                                    userGroups.includes(row.id)
+                                                }
+                                                variant="contained"
+                                                onClick={() => {
+                                                    handleJoin(row.id);
+                                                }}
+                                            >
+                                                Join
+                                            </Button>
+                                            <Button
+                                                disabled={
+                                                    !user.id ||
+                                                    !userGroups.includes(row.id)
+                                                }
+                                                variant="contained"
+                                                sx={{ marginLeft: "2px" }}
+                                                onClick={() => {
+                                                    handleLeave(row.id);
+                                                }}
+                                            >
+                                                Leave
+                                            </Button>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </div>
+            ) : (
+                <Navigate to="/Catalog" />
+            )}
+        </>
     );
 }

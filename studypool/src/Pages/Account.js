@@ -10,12 +10,17 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Typography from "@mui/material/Typography";
 import { UserContext } from "../UserContext";
 import { backend_url } from "../links";
-import { Navigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import { ListItemButton } from "@mui/material";
 
 export default function Account() {
     const { user, setUser } = useContext(UserContext);
     const [groups, setGroups] = useState([]);
+    const navigate = useNavigate();
+
+    const handleClick = (gid) => {
+        navigate("/StudyGroup", {state:{id: gid}});
+    }
 
     useEffect(() => {
         fetch(backend_url + "/getAccountInfo?id=" + user.id, {
@@ -127,7 +132,7 @@ export default function Account() {
                                                 <AccountCircleIcon />
                                             </Avatar>
                                         </ListItemAvatar>
-                                        <ListItemButton divider={true}>
+                                        <ListItemButton divider={true} onClick={() => handleClick(group.id)}>
                                             <ListItemText
                                                 primary={group.title}
                                                 secondary={
