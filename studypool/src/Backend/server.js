@@ -250,7 +250,7 @@ app.post("/createPost", (req, res) => {
             if (err) {
                 console.log(err);
             } else {
-                //console.log(results)
+                res.send(String(results.insertId));
             }
         }
     );
@@ -259,7 +259,7 @@ app.post("/createPost", (req, res) => {
 app.get("/getPosts", (req, res) => {
     const gid = Number(req.query.gid);
     connection.query(
-        "select * from (userpost join user on user.id=userpost.user_id) where group_id=? order by post_date",
+        "select f_name, l_name, post_date, content, userpost.id from (userpost join user on user.id=userpost.user_id) where group_id=? order by post_date",
         [gid],
         function (err, data) {
             if (err) {
@@ -271,9 +271,35 @@ app.get("/getPosts", (req, res) => {
     );
 });
 
-app.post("/createComment", (req, res) => {});
+app.post("/createComment", (req, res) => {
+    const data = req.body;
+    connection.query(
+        "INSERT IGNORE INTO comment (post_id, user_id, comment_date, content) VALUES (?,?,now(),?)",
+        [data.post_id, data.user_id, data.content],
+        function (err, results) {
+            if (err) {
+                console.log(err);
+            } else {
+                //res.send(String(results.insertId));
+            }
+        }
+    );
+});
 
-app.get("/getComments", (req, res) => {});
+app.get("/getComments", (req, res) => {
+    const pid = Number(req.query.pid);
+    connection.query(
+        "select * from (comment join user on comment.user_id=user.id) where post_id=?",
+        [pid],
+        function (err, data) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(data);
+            }
+        }
+    );
+});
 
 app.listen(port, () => {
     console.log(`Connect at http://localhost:${port}`);

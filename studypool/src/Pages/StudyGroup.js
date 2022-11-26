@@ -38,20 +38,28 @@ const StudyGroup = () => {
                     group_id: location.state.id,
                     content: postInput,
                 }),
-            });
-            setPosts([
-                {
-                    author: user.fname + " " + user.lname,
-                    content: postInput,
-                },
-                ...posts,
-            ]);
+            })
+                .then((res) => {
+                    return res.json();
+                })
+                .then((postId) => {
+                    setPosts([
+                        {
+                            author: user.fname + " " + user.lname,
+                            content: postInput,
+                            postId: postId,
+                        },
+                        ...posts,
+                    ]);
+                });
+
             setPostInput("");
         }
     };
 
     const handleGroupRedirect = (gid) => {
         navigate("/StudyGroup", { state: { id: gid } });
+        navigate(0);
     };
     //On page render, fetch all user groups and members of the study group
     //and fetch all posts
@@ -101,14 +109,19 @@ const StudyGroup = () => {
                     return res.json();
                 })
                 .then((data) => {
-                  let tmp = [];
-                  for (let pinfo of data) {
-                    tmp.push({author: pinfo.f_name+" "+pinfo.l_name, content: pinfo.content})
-                  }
-                  setPosts(tmp);
+                    let tmp = [];
+                    for (let pinfo of data) {
+                        tmp.push({
+                            author: pinfo.f_name + " " + pinfo.l_name,
+                            content: pinfo.content,
+                            postid: pinfo.id,
+                            postdate: pinfo.post_date,
+                        });
+                    }
+                    setPosts(tmp);
                 });
         }
-    }, [location.state.id]);
+    }, [location.state?.id]);
 
     return (
         <div className="group_container">
@@ -118,6 +131,7 @@ const StudyGroup = () => {
                         variant="text"
                         color="primary"
                         style={{ marginLeft: "2%" }}
+                        onClick={() => navigate(-1)}
                     >
                         <KeyboardReturnIcon /> &nbsp;Back
                     </Button>
@@ -161,7 +175,9 @@ const StudyGroup = () => {
                                 <Post
                                     author={post.author}
                                     content={post.content}
-                                    comments={[]}
+                                    postid={post.postid}
+                                    postdate={post.postdate}
+                                    userId={user.id}
                                 />
                             );
                         })
