@@ -21,28 +21,40 @@ const StudyGroup = () => {
     const location = useLocation();
     const navigate = useNavigate();
     //location.state.id is the current group id
+    const [gTitle, setGTitle] = useState("");
     const [postInput, setPostInput] = useState("");
     const [posts, setPosts] = useState([]);
     const [memberList, setMemberList] = useState([]); //Takes strings of member names
     const [myGroups, setMyGroups] = useState([]); //Currently takes strings, will have to change it
     const handleSubmit = () => {
         if (postInput) {
+            fetch(backend_url + "/createPost", {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify({
+                    user_id: user.id,
+                    group_id: location.state.id,
+                    content: postInput,
+                }),
+            });
             setPosts([
                 {
-                    author: "John Doe",
+                    author: user.fname + " " + user.lname,
                     content: postInput,
                 },
                 ...posts,
             ]);
             setPostInput("");
-            console.log(posts);
         }
     };
 
     const handleGroupRedirect = (gid) => {
         navigate("/StudyGroup", { state: { id: gid } });
     };
-
+    //On page render, fetch all user groups and members of the study group
+    //and fetch all posts
     useEffect(() => {
         if (!location.state) {
             navigate("/");
@@ -61,7 +73,7 @@ const StudyGroup = () => {
                     setMyGroups(data);
                 });
             //This will get the current members in this study group
-            fetch(backend_url + "/studyGroupMembers?gid=" + location.state.id, {
+            fetch(backend_url + "/studyGroupInfo?gid=" + location.state.id, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -76,6 +88,24 @@ const StudyGroup = () => {
                         tmp.push(mem.f_name + " " + mem.l_name);
                     }
                     setMemberList(tmp);
+                    setGTitle(data[0].title);
+                });
+            //This will get all of the posts for this group
+            fetch(backend_url + "/getPosts?gid=" + location.state.id, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+                .then((res) => {
+                    return res.json();
+                })
+                .then((data) => {
+                  let tmp = [];
+                  for (let pinfo of data) {
+                    tmp.push({author: pinfo.f_name+" "+pinfo.l_name, content: pinfo.content})
+                  }
+                  setPosts(tmp);
                 });
         }
     }, [location.state.id]);
@@ -174,7 +204,18 @@ const StudyGroup = () => {
                 </div>
             </div>
             <div className="group_rightBar">
-                <List sx={{ maxHeight: "92%", overflow: "auto" }}>
+                <List
+                    sx={{
+                        maxHeight: "92%",
+                        overflow: "auto",
+                    }}
+                >
+                    <ListItem sx={{ marginBottom: "-20px" }}>
+                        <ListItemText
+                            primary={gTitle}
+                            primaryTypographyProps={{ fontSize: "20px" }}
+                        />
+                    </ListItem>
                     <ListItem>
                         <ListItemText primary="Members" />
                     </ListItem>

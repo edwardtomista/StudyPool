@@ -226,10 +226,10 @@ app.get("/courseCount", (req, res) => {
 /**
  * Stuff before will be used exclusively on each studygroup page
  */
-app.get("/studyGroupMembers", (req, res) => {
+app.get("/studyGroupInfo", (req, res) => {
     const gid = req.query.gid;
     connection.query(
-        "select f_name, l_name from (user join usergroup on user.id=usergroup.user_id) where usergroup.id=?",
+        "select f_name, l_name, title from (user join usergroup on user.id=usergroup.user_id join studygroup on usergroup.id=studygroup.id) where usergroup.id=?",
         [gid],
         function (err, data) {
             if (err) {
@@ -240,6 +240,40 @@ app.get("/studyGroupMembers", (req, res) => {
         }
     );
 });
+
+app.post("/createPost", (req, res) => {
+    const data = req.body;
+    connection.query(
+        "INSERT IGNORE INTO userpost (user_id, group_id, post_date, content) VALUES (?,?,NOW(),?)",
+        [data.user_id, data.group_id, data.content],
+        function (err, results) {
+            if (err) {
+                console.log(err);
+            } else {
+                //console.log(results)
+            }
+        }
+    );
+});
+
+app.get("/getPosts", (req, res) => {
+    const gid = Number(req.query.gid);
+    connection.query(
+        "select * from (userpost join user on user.id=userpost.user_id) where group_id=? order by post_date",
+        [gid],
+        function (err, data) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(data);
+            }
+        }
+    );
+});
+
+app.post("/createComment", (req, res) => {});
+
+app.get("/getComments", (req, res) => {});
 
 app.listen(port, () => {
     console.log(`Connect at http://localhost:${port}`);
