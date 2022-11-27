@@ -199,17 +199,25 @@ app.get("/getUserGroups", (req, res) => {
 app.get("/getCourses", (req, res) => {
     const start = Number(req.query.start);
     const rowsPerPage = Number(req.query.rowsPerPage);
-    connection.query(
-        "SELECT * FROM course order by course_name LIMIT ?,?",
-        [start, rowsPerPage],
-        function (err, data) {
-            if (err) {
-                console.log(err);
-            } else {
-                res.send(data);
-            }
+    let sqlquery = "SELECT * FROM course order by course_code LIMIT ?,?";
+    if (req.query.courseCode) {
+        sqlquery =
+            "SELECT * FROM course order by course_code " +
+            req.query.courseCode +
+            " LIMIT ?,?";
+    } else if (req.query.courseName) {
+        sqlquery =
+            "SELECT * FROM course order by course_name " +
+            req.query.courseName +
+            " LIMIT ?,?";
+    }
+    connection.query(sqlquery, [start, rowsPerPage], function (err, data) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(data);
         }
-    );
+    });
 });
 
 //Used in /Catalog for pagination number
@@ -259,7 +267,7 @@ app.post("/createPost", (req, res) => {
 app.get("/getPosts", (req, res) => {
     const gid = Number(req.query.gid);
     connection.query(
-        "select f_name, l_name, post_date, content, userpost.id from (userpost join user on user.id=userpost.user_id) where group_id=? order by post_date",
+        "select f_name, l_name, post_date, content, userpost.id from (userpost join user on user.id=userpost.user_id) where group_id=? order by post_date desc",
         [gid],
         function (err, data) {
             if (err) {
@@ -289,7 +297,7 @@ app.post("/createComment", (req, res) => {
 app.get("/getComments", (req, res) => {
     const pid = Number(req.query.pid);
     connection.query(
-        "select * from (comment join user on comment.user_id=user.id) where post_id=?",
+        "select * from (comment join user on comment.user_id=user.id) where post_id=? order by comment_date desc",
         [pid],
         function (err, data) {
             if (err) {

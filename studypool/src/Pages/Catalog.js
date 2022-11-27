@@ -12,11 +12,16 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import { backend_url } from "../links";
 import { useNavigate } from "react-router-dom";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import IconButton from "@mui/material/IconButton";
 
 export default function Catalog() {
     const [courses, setCourses] = useState([]);
     const [courseCount, setCourseCount] = useState(100);
     const [page, setPage] = useState(0);
+    const [sortSection, setSortSection] = useState(false);
+    const [sortName, setSortName] = useState(false);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const navigate = useNavigate();
     const handleChangePage = (event, newPage) => {
@@ -27,8 +32,9 @@ export default function Catalog() {
         setPage(0);
     };
     const handleClick = (courseId, courseCode) => {
-      navigate("/Groups", {state:{cid: courseId, cname: courseCode}});
+        navigate("/Groups", { state: { cid: courseId, cname: courseCode } });
     };
+    //this runs on page refresh / first render
     useEffect(() => {
         fetch(backend_url + "/courseCount")
             .then((res) => {
@@ -56,7 +62,90 @@ export default function Catalog() {
             .then((data) => {
                 setCourses(data);
             });
+    }, []);
+
+    //this runs everytime the page is changed
+    useEffect(() => {
+        fetch(backend_url + "/courseCount")
+            .then((res) => {
+                return res.json();
+            })
+            .then((data) => {
+                setCourseCount(data[0]["count(*)"]);
+            });
+        let urlParam = "";
+        //this if block accounts for if the user has the catalog sorted
+        if (sortSection) {
+            urlParam += "&courseCode=desc";
+        } else if (sortName) {
+            urlParam += "&courseName=desc";
+        }
+        fetch(
+            backend_url +
+                "/getCourses?start=" +
+                page * rowsPerPage +
+                "&rowsPerPage=" +
+                rowsPerPage +
+                urlParam,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        )
+            .then((res) => {
+                return res.json();
+            })
+            .then((data) => {
+                setCourses(data);
+            });
     }, [page, rowsPerPage]);
+
+    const handleSort = (type) => {
+        //type === 0 for sorting section, 1 for sorting name
+        let urlParam = "";
+        if (type === 0) {
+            //sorting by course code
+            let courseCode = "desc";
+            if (sortSection) {
+                courseCode = "asc";
+            }
+            setSortSection(!sortSection);
+            setSortName(false);
+            urlParam += "&courseCode=" + courseCode;
+        } else {
+            //sorting by name
+            let courseName = "desc";
+            if (sortName) {
+                courseName = "asc";
+            }
+            setSortName(!sortName);
+            setSortSection(false);
+            urlParam += "&courseName=" + courseName;
+        }
+        fetch(
+            backend_url +
+                "/getCourses?start=" +
+                page * rowsPerPage +
+                "&rowsPerPage=" +
+                rowsPerPage +
+                urlParam,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        )
+            .then((res) => {
+                return res.json();
+            })
+            .then((data) => {
+                setCourses(data);
+            });
+        setPage(0)
+    };
 
     return (
         <div className="tables">
@@ -64,11 +153,37 @@ export default function Catalog() {
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
-                        <TableRow sx={{backgroundColor: "whitesmoke"}}>
+                        <TableRow sx={{ backgroundColor: "whitesmoke" }}>
                             <TableCell style={{ width: 100 }}>
                                 Section
+                                <IconButton
+                                    aria-label=""
+                                    onClick={() => {
+                                        handleSort(0);
+                                    }}
+                                >
+                                    {sortSection ? (
+                                        <KeyboardArrowDownIcon />
+                                    ) : (
+                                        <KeyboardArrowUpIcon />
+                                    )}
+                                </IconButton>
                             </TableCell>
-                            <TableCell align="left">Title</TableCell>
+                            <TableCell align="left">
+                                Title{" "}
+                                <IconButton
+                                    aria-label=""
+                                    onClick={() => {
+                                        handleSort(1);
+                                    }}
+                                >
+                                    {sortName ? (
+                                        <KeyboardArrowDownIcon />
+                                    ) : (
+                                        <KeyboardArrowUpIcon />
+                                    )}
+                                </IconButton>
+                            </TableCell>
                             <TableCell align="right"></TableCell>
                             {/* <TableCell align="right">Time</TableCell>
             <TableCell align="right">Instructor</TableCell> */}
@@ -98,7 +213,9 @@ export default function Catalog() {
                                 <TableCell align="right">
                                     <Button
                                         variant="contained"
-                                        onClick={() => handleClick(row.id, row.course_code)}
+                                        onClick={() =>
+                                            handleClick(row.id, row.course_code)
+                                        }
                                     >
                                         Select
                                     </Button>
