@@ -102,6 +102,10 @@ export default function Catalog() {
             });
     }, [page, rowsPerPage]);
 
+    useEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    }, [page]);
+
     const handleSort = (type) => {
         //type === 0 for sorting section, 1 for sorting name
         let urlParam = "";
@@ -144,7 +148,7 @@ export default function Catalog() {
             .then((data) => {
                 setCourses(data);
             });
-        setPage(0)
+        setPage(0);
     };
 
     return (
