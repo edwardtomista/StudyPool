@@ -48,6 +48,7 @@ const StudyGroup = () => {
                             author: user.fname + " " + user.lname,
                             content: postInput,
                             postid: postId,
+                            postdate: new Date()
                         },
                         ...posts,
                     ]);
