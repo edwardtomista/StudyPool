@@ -158,7 +158,7 @@ export default function Catalog() {
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                         <TableRow sx={{ backgroundColor: "Gainsboro" }}>
-                            <TableCell style={{ width: 100 }}>
+                            <TableCell style={{ width: 300 }}>
                                 Section
                                 <IconButton
                                     aria-label=""
@@ -205,7 +205,7 @@ export default function Catalog() {
                                 }}
                             >
                                 <TableCell
-                                    style={{ width: 100 }}
+                                    style={{ width: 150 }}
                                     component="th"
                                     scope="row"
                                 >
@@ -229,7 +229,7 @@ export default function Catalog() {
                             </TableRow>
                         ))}
                         <TableRow sx={{ backgroundColor: "Gainsboro" }}>
-                            <TableCell>
+                            <TableCell style={{ width: 300 }}>
                                 <TablePagination
                                     component={TableBody}
                                     count={courseCount}
