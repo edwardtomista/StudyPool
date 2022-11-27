@@ -8,6 +8,7 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 import { UserContext } from "../UserContext";
 import { backend_url } from "../links";
 import { useNavigate, Navigate } from "react-router-dom";
@@ -19,8 +20,21 @@ export default function Account() {
     const navigate = useNavigate();
 
     const handleClick = (gid) => {
-        navigate("/StudyGroup", {state:{id: gid}});
-    }
+        navigate("/StudyGroup", { state: { id: gid } });
+    };
+
+    const handleLeave = (gid) => {
+        fetch(backend_url + "/leaveGroup", {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify({
+                id: Number(gid),
+                user_id: user.id,
+            }),
+        });
+    };
 
     useEffect(() => {
         fetch(backend_url + "/getAccountInfo?id=" + user.id, {
@@ -35,7 +49,7 @@ export default function Account() {
             .then((data) => {
                 setGroups(data);
             });
-    }, []);
+    }, [groups]);
 
     return (
         <div className="tables">
@@ -132,7 +146,12 @@ export default function Account() {
                                                 <AccountCircleIcon />
                                             </Avatar>
                                         </ListItemAvatar>
-                                        <ListItemButton divider={true} onClick={() => handleClick(group.id)}>
+                                        <ListItemButton
+                                            divider={true}
+                                            onClick={() =>
+                                                handleClick(group.id)
+                                            }
+                                        >
                                             <ListItemText
                                                 primary={group.title}
                                                 secondary={
@@ -142,6 +161,15 @@ export default function Account() {
                                                 }
                                             />
                                         </ListItemButton>
+                                        <Button
+                                            variant="contained"
+                                            sx={{ marginLeft: "10px" }}
+                                            onClick={() =>
+                                                handleLeave(group.id)
+                                            }
+                                        >
+                                            Leave
+                                        </Button>
                                     </ListItem>
                                 );
                             })}

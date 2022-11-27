@@ -31,10 +31,10 @@ function Header() {
                 />
             </Button>
 
-            <div className="header__center">
+            {/* <div className="header__center">
                 <input type="text" />
                 <SearchIcon />
-            </div>
+            </div> */}
             <div className="header__right">
                 {user.id ? (
                     <>

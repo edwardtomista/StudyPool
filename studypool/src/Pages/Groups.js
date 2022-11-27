@@ -173,7 +173,7 @@ export default function Groups(props) {
                     </Button>
                     <h1>{location.state.cname}</h1>
                     <div>
-                        <Button variant="outlined" onClick={handleClickOpen}>
+                        <Button variant="outlined" onClick={handleClickOpen} disabled={!user.id}>
                             Create New Group
                         </Button>
                         <Dialog open={open} onClose={handleClose}>
