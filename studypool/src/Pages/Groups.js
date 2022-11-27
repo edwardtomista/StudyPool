@@ -109,6 +109,7 @@ export default function Groups(props) {
                         course_id: location.state.cid,
                     }),
                 });
+                navigate("/StudyGroup", { state: { id: gid } });
             });
         setGroups([
             ...groups,
@@ -173,7 +174,11 @@ export default function Groups(props) {
                     </Button>
                     <h1>{location.state.cname}</h1>
                     <div>
-                        <Button variant="outlined" onClick={handleClickOpen} disabled={!user.id}>
+                        <Button
+                            variant="outlined"
+                            onClick={handleClickOpen}
+                            disabled={!user.id}
+                        >
                             Create New Group
                         </Button>
                         <Dialog open={open} onClose={handleClose}>
@@ -223,9 +228,7 @@ export default function Groups(props) {
                     >
                         <Table sx={{ minWidth: 650 }} aria-label="simple table">
                             <TableHead>
-                                <TableRow
-                                    sx={{ backgroundColor: "whitesmoke" }}
-                                >
+                                <TableRow sx={{ backgroundColor: "Gainsboro" }}>
                                     <TableCell>Title</TableCell>
                                     <TableCell align="right">Subject</TableCell>
                                     <TableCell align="right">Host</TableCell>

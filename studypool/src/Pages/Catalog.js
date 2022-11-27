@@ -157,7 +157,7 @@ export default function Catalog() {
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
-                        <TableRow sx={{ backgroundColor: "whitesmoke" }}>
+                        <TableRow sx={{ backgroundColor: "Gainsboro" }}>
                             <TableCell style={{ width: 100 }}>
                                 Section
                                 <IconButton
@@ -228,15 +228,23 @@ export default function Catalog() {
               <TableCell align="right">{row.instructor}</TableCell> */}
                             </TableRow>
                         ))}
+                        <TableRow sx={{ backgroundColor: "Gainsboro" }}>
+                            <TableCell>
+                                <TablePagination
+                                    component={TableBody}
+                                    count={courseCount}
+                                    page={page}
+                                    onPageChange={handleChangePage}
+                                    rowsPerPage={rowsPerPage}
+                                    onRowsPerPageChange={
+                                        handleChangeRowsPerPage
+                                    }
+                                />
+                            </TableCell>
+                            <TableCell />
+                            <TableCell />
+                        </TableRow>
                     </TableBody>
-                    <TablePagination
-                        component={TableBody}
-                        count={courseCount}
-                        page={page}
-                        onPageChange={handleChangePage}
-                        rowsPerPage={rowsPerPage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
-                    />
                 </Table>
             </TableContainer>
         </div>
