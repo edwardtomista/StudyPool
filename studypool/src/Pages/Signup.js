@@ -120,7 +120,11 @@ export default function SignUp() {
                     password: false,
                 };
                 if (fName && lName && email && password) {
-                    if (err.message.includes("email")) {
+                    if (err.message.includes("An account with the given email already exists")) {
+                        tmp.email = "An account with the given email already exists";
+                        tmp2.email = true;
+                    }
+                    else if (err.message.includes("email")) {
                         tmp.email = "Please enter a valid email";
                         tmp2.email = true;
                     } else {
