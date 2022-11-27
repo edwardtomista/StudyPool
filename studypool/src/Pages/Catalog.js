@@ -103,7 +103,7 @@ export default function Catalog() {
     }, [page, rowsPerPage]);
 
     useEffect(() => {
-        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+        window.scrollTo({ top: 80, left: 0, behavior: "smooth" });
     }, [page]);
 
     const handleSort = (type) => {
