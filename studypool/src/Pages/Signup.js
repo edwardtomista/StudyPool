@@ -37,19 +37,39 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUp() {
+    const [invalid, setInvalid] = React.useState({
+        firstName: false,
+        lastName: false,
+        email: false,
+        password: false,
+    });
+    const [errorText, setErrorText] = React.useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+    });
     const navigate = useNavigate();
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
-            firstName: data.get("firstName"),
-            lastName: data.get("lastName"),
-            email: data.get("email"),
-            password: data.get("password"),
+        // console.log({
+        //     firstName: data.get("firstName"),
+        //     lastName: data.get("lastName"),
+        //     email: data.get("email"),
+        //     password: data.get("password"),
+        // });
+        setErrorText("");
+        setInvalid({
+            firstName: false,
+            lastName: false,
+            email: false,
+            password: false,
         });
-
         const fName = data.get("firstName");
         const lName = data.get("lastName");
+        const email = data.get("email");
+        const password = data.get("password");
 
         signup(
             data.get("firstName"),
@@ -58,20 +78,20 @@ export default function SignUp() {
             data.get("password")
         )
             .then((data) => {
-                console.log("it work");
-                console.log(data);
+                // console.log("it work");
+                // console.log(data);
 
                 fetch(backend_url + "/signup", {
-                    method : "POST",
-                    headers : {
-                        "content-type" : "application/json",
+                    method: "POST",
+                    headers: {
+                        "content-type": "application/json",
                     },
-                    body : JSON.stringify({
+                    body: JSON.stringify({
                         id: data.userSub,
                         f_name: fName,
                         l_name: lName,
                         email: data.user.username,
-                    })
+                    }),
                 });
 
                 navigate("/Login");
@@ -79,9 +99,55 @@ export default function SignUp() {
                 //Redirect to login page after 3-5 seconds probably?
             })
             .catch((err) => {
-                console.log("Sign up error");
+                //console.log("Sign up error");
                 console.log(err);
                 //Can try error handling here
+                /**
+                 * fName, lName, email, password
+                 * errorText, setErrorText
+                 * invalid, setInvalid({firstName: false, lastName: false, email: false, password: false})
+                 */
+                let tmp = {
+                    firstName: "",
+                    lastName: "",
+                    email: "",
+                    password: "",
+                };
+                let tmp2 = {
+                    firstName: false,
+                    lastName: false,
+                    email: false,
+                    password: false,
+                };
+                if (fName && lName && email && password) {
+                    if (err.message.includes("email")) {
+                        tmp.email = "Please enter a valid email";
+                        tmp2.email = true;
+                    } else {
+                        tmp.password =
+                            "Your password must be at least 8 characters long, contain at least one number, one special character, and have a mixture of uppercase and lowercase letters.";
+                        tmp2.password = true;
+                    }
+                } else {
+                    if (!fName) {
+                        tmp.firstName = "Please enter your first name";
+                        tmp2.firstName = true;
+                    }
+                    if (!lName) {
+                        tmp.lastName = "Please enter your last name";
+                        tmp2.lastName = true;
+                    }
+                    if (!email) {
+                        tmp.email = "Please enter your email";
+                        tmp2.email = true;
+                    }
+                    if (!password) {
+                        tmp.password = "Please enter your password";
+                        tmp2.password = true;
+                    }
+                }
+                setErrorText(tmp);
+                setInvalid(tmp2);
             });
     };
 
@@ -119,6 +185,8 @@ export default function SignUp() {
                                     id="firstName"
                                     label="First Name"
                                     autoFocus
+                                    error={invalid.firstName}
+                                    helperText={errorText.firstName}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -129,6 +197,8 @@ export default function SignUp() {
                                     label="Last Name"
                                     name="lastName"
                                     autoComplete="family-name"
+                                    error={invalid.lastName}
+                                    helperText={errorText.lastName}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -139,6 +209,8 @@ export default function SignUp() {
                                     label="Email Address"
                                     name="email"
                                     autoComplete="email"
+                                    error={invalid.email}
+                                    helperText={errorText.email}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -150,6 +222,8 @@ export default function SignUp() {
                                     type="password"
                                     id="password"
                                     autoComplete="new-password"
+                                    error={invalid.password}
+                                    helperText={errorText.password}
                                 />
                             </Grid>
                             <Grid item xs={12}>

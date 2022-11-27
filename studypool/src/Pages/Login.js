@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -42,22 +42,24 @@ const theme = createTheme();
 export default function Login() {
     const navigate = useNavigate();
     const { user, setUser } = useContext(UserContext);
+    const [invalid, setInvalid] = useState(false);
+    const [errorText, setErrorText] = useState("");
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get("email"),
-            password: data.get("password"),
-        });
+        // console.log({
+        //     email: data.get("email"),
+        //     password: data.get("password"),
+        // });
         login(data.get("email"), data.get("password"))
             .then((data) => {
                 //Redirect to home page or something
-                console.log({
-                    sub: data.idToken.payload.sub, //This is the user's id.
-                    fname: data.idToken.payload.given_name,
-                    lname: data.idToken.payload.family_name,
-                    email: data.idToken.payload.email,
-                });
+                // console.log({
+                //     sub: data.idToken.payload.sub, //This is the user's id.
+                //     fname: data.idToken.payload.given_name,
+                //     lname: data.idToken.payload.family_name,
+                //     email: data.idToken.payload.email,
+                // });
                 setUser({
                     id: data.idToken.payload.sub,
                     fname: data.idToken.payload.given_name,
@@ -69,12 +71,15 @@ export default function Login() {
             })
             .catch((err) => {
                 if (err.name === "UserNotConfirmedException") {
-                    console.log("Email Not Verified");
+                    //console.log("Email Not Verified");
+                    setInvalid(true);
+                    setErrorText("Email Not Verified");
                 } else {
-                    console.log("Incorrect username/password");
+                    //console.log("Incorrect username/password");
+                    setInvalid(true);
+                    setErrorText("Incorrect username/password");
                 }
             });
-
     };
 
     return (
@@ -136,6 +141,7 @@ export default function Login() {
                                 name="email"
                                 autoComplete="email"
                                 autoFocus
+                                error={invalid}
                             />
                             <TextField
                                 margin="normal"
@@ -146,6 +152,8 @@ export default function Login() {
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
+                                error={invalid}
+                                helperText={errorText}
                             />
                             <FormControlLabel
                                 control={

@@ -29,10 +29,10 @@ export const signup = (fname, lname, email, password) => {
     return new Promise((resolve, reject) => {
         UserPool.signUp(email, password, attributeList, null, (err, data) => {
             if (err) {
-                console.error(err.message);
+                //console.error(err.message);
                 reject(err);
             } else {
-                console.log(data);
+                //console.log(data);
                 resolve(data);
             }
         });
@@ -51,15 +51,15 @@ export const login = (email, password) => {
     return new Promise((resolve, reject) => {
         user.authenticateUser(authDetails, {
             onSuccess: (data) => {
-                console.log("onSuccess: ", data);
+                //console.log("onSuccess: ", data);
                 resolve(data);
             },
             onFailure: (err) => {
-                console.error("onFailure: ", err);
+                //console.error("onFailure: ", err);
                 reject(err);
             },
             newPasswordRequired: (data) => {
-                console.log("newPasswordRequired: ", data);
+                //console.log("newPasswordRequired: ", data);
                 resolve(data);
             },
         });
