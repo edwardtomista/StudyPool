@@ -8,6 +8,7 @@ import StudyGroup from "./Pages/StudyGroup";
 import Catalog from "./Pages/Catalog";
 import Groups from "./Pages/Groups";
 import Account from "./Pages/Account";
+import SearchBar from "./Pages/SearchBar.js";
 import { Route, Routes } from "react-router-dom";
 import { UserContext } from "./UserContext";
 import { getSession } from "./Backend/Auth";
@@ -41,7 +42,9 @@ function App() {
             {user ? (
                 <UserContext.Provider value={{ user, setUser }}>
                     <div className="App">
+
                         <Header />
+
                         <Routes>
                             <Route path="/" element={<Home />} />
                             <Route path="/Login" element={<Login />} />
@@ -53,7 +56,10 @@ function App() {
                                 element={<StudyGroup />}
                             />
                             <Route path="/Account" element={<Account />} />
+                          
+
                         </Routes>
+
                     </div>
                 </UserContext.Provider>
             ) : (

@@ -15,9 +15,13 @@ import { useNavigate } from "react-router-dom";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import IconButton from "@mui/material/IconButton";
+import SearchBar from "./SearchBar.js"
+
 
 export default function Catalog() {
-    const [courses, setCourses] = useState([]);
+    const [courses, setCourses] = useState([
+      {courses: "1", name: "KINK"}
+    ]);
     const [courseCount, setCourseCount] = useState(100);
     const [page, setPage] = useState(0);
     const [sortSection, setSortSection] = useState(false);
@@ -157,6 +161,7 @@ export default function Catalog() {
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
+                      <SearchBar placeholder ="Search Class... " data = {courses}/>
                         <TableRow sx={{ backgroundColor: "Gainsboro" }}>
                             <TableCell style={{ width: 300 }}>
                                 Section
