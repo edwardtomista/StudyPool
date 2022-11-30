@@ -3,16 +3,15 @@ const app = express();
 const port = 3001;
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const mysql = require("mysql2");
+const mysql = require("mysql");
 
-const connection = mysql.createConnection({
-    host: "localhost",
+const connection = mysql.createPool({
+    host: "studypool.cpqx7rt8igho.us-west-2.rds.amazonaws.com",
     user: "root",
     password: "password",
     database: "studypool",
+    port: 3306
 });
-
-connection.connect();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -22,23 +21,35 @@ app.get("/", (req, res) => {
     res.send("Successfully Connected!");
 });
 
-// const csvtojson = require('csvtojson');
-// const fileName = './src/Backend/sjsu_courses.csv';
-// csvtojson().fromFile(fileName).then(source => {
-//     for (var i = 0; i < source.length; i++) {
-//         const CourseCode = source[i]['CourseCode'],
-//             CourseFullName = source[i]['CourseFullName']
 
-//         connection.query("INSERT IGNORE INTO course (course_name, course_code) VALUES (?, ?)",
-//         [CourseFullName, CourseCode],
-//             function (err, rows, fields) {
-//                 if (err) {
-//                     console.log(err);
-//                 }
-//             }
-//         );
-//     }
-// });
+app.get("/test", (req, res) => {
+    connection.query("SELECT * FROM user;", function(err, rows, fields) {
+        if(err) {
+            console.log(err);
+        }
+        else {
+            res.send(rows);
+        }
+    });
+});
+
+const csvtojson = require('csvtojson');
+const fileName = './src/Backend/sjsu_courses.csv';
+csvtojson().fromFile(fileName).then(source => {
+    for (var i = 0; i < source.length; i++) {
+        const CourseCode = source[i]['CourseCode'],
+            CourseFullName = source[i]['CourseFullName']
+
+        connection.query("INSERT IGNORE INTO course (course_name, course_code) VALUES (?, ?)",
+        [CourseFullName, CourseCode],
+            function (err, rows, fields) {
+                if (err) {
+                    console.log(err);
+                }
+            }
+        );
+    }
+});
 
 app.get("/getAllUsers", (req, res) => {
     connection.query("SELECT * FROM user", function (err, rows, fields) {
@@ -317,5 +328,5 @@ app.get("/getComments", (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Connect at http://localhost:${port}`);
+    console.log(`Connect at Port:${port}`);
 });
