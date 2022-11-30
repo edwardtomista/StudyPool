@@ -17,7 +17,7 @@ import { backend_url } from "../links";
 import { UserContext } from "../UserContext";
 
 const StudyGroup = () => {
-    const { user, setUser } = useContext(UserContext); //user info
+    const { user, setUser } = useContext(UserContext);
     const location = useLocation();
     const navigate = useNavigate();
     //location.state.id is the current group id
@@ -123,158 +123,162 @@ const StudyGroup = () => {
                 });
         }
     }, [location.state?.id]);
-    var test = 0;
+    var groupCtr = 0;
     return (
-        <div className="group_container">
-            <div className="group_leftBar">
-                <div>
-                    <Button
-                        variant="text"
-                        color="primary"
-                        style={{ marginLeft: "2%" }}
-                        onClick={() => navigate(-1)}
-                    >
-                        <KeyboardReturnIcon /> &nbsp;Back
-                    </Button>
-                </div>
-                <List sx={{ maxHeight: "92%", overflow: "auto" }}>
-                    <ListItem>
-                        <ListItemText primary="My Groups" />
-                    </ListItem>
-                    {myGroups.map((group) => {
-                        //some disgusting code to alternate colors for the div tag in
-                        //ListItemButton below
-                        //These if statements is to set the div class to one of the four accent classes in the .css
-                        //right now idk a better way to do this so here you are
-                        let backgroundColor = "";
-                        if (test === 0) {
-                            backgroundColor = "studygroup_group_accent0";
-                            test++;
-                        } else if (test === 1) {
-                            backgroundColor = "studygroup_group_accent1";
-                            test++;
-                        } else if (test === 2) {
-                            backgroundColor = "studygroup_group_accent2";
-                            test++;
-                        } else {
-                            backgroundColor = "studygroup_group_accent3";
-                            test = 0;
-                        }
-                        return (
-                            <ListItem>
-                                <ListItemButton
-                                    onClick={() =>
-                                        handleGroupRedirect(group.id)
-                                    }
-                                    disableGutters
-                                    sx={{ p: 0, ml: 2 }}
-                                    selected={
-                                        location.state.id === group.id
-                                            ? true
-                                            : false
-                                    }
-                                >
-                                    <div className={backgroundColor}>
-                                        &nbsp;
-                                    </div>
-
-                                    <ListItemText
-                                        primary={group.title}
-                                        secondary={
-                                            group.course_code +
-                                            ": " +
-                                            group.subject
-                                        }
-                                    />
-                                </ListItemButton>
-                            </ListItem>
-                        );
-                    })}
-                </List>
-            </div>
-            <div className="group_feed">
-                <div className="group_postList">
-                    {posts.length > 0 ? (
-                        posts.map((post) => {
+        <div className="group_page">
+            <div className="group_container">
+                <div className="group_leftBar">
+                    <div>
+                        <Button
+                            variant="text"
+                            color="primary"
+                            style={{ marginLeft: "2%" }}
+                            onClick={() => navigate(-1)}
+                        >
+                            <KeyboardReturnIcon /> &nbsp;Back
+                        </Button>
+                    </div>
+                    <List sx={{ maxHeight: "92%", overflow: "auto" }}>
+                        <ListItem>
+                            <ListItemText primary="My Groups" />
+                        </ListItem>
+                        {myGroups.map((group) => {
+                            //These if statements set the div class to one of the four accent classes in the .css
+                            //It creates the color accents for each listitembutton below
+                            let backgroundColor = "";
+                            if (groupCtr === 0) {
+                                backgroundColor = "studygroup_group_accent0";
+                                groupCtr++;
+                            } else if (groupCtr === 1) {
+                                backgroundColor = "studygroup_group_accent1";
+                                groupCtr++;
+                            } else if (groupCtr === 2) {
+                                backgroundColor = "studygroup_group_accent2";
+                                groupCtr++;
+                            } else {
+                                backgroundColor = "studygroup_group_accent3";
+                                groupCtr = 0;
+                            }
                             return (
-                                <Post
-                                    author={post.author}
-                                    content={post.content}
-                                    postid={post.postid}
-                                    postdate={post.postdate}
-                                    userId={user.id}
-                                />
+                                <ListItem>
+                                    <ListItemButton
+                                        onClick={() =>
+                                            handleGroupRedirect(group.id)
+                                        }
+                                        disableGutters
+                                        sx={{ p: 0, ml: 2 }}
+                                        selected={
+                                            location.state.id === group.id
+                                                ? true
+                                                : false
+                                        }
+                                    >
+                                        <div className={backgroundColor}>
+                                            &nbsp;
+                                        </div>
+
+                                        <ListItemText
+                                            primary={group.title}
+                                            secondary={
+                                                group.course_code +
+                                                ": " +
+                                                group.subject
+                                            }
+                                        />
+                                    </ListItemButton>
+                                </ListItem>
                             );
-                        })
-                    ) : (
-                        <Paper className="noPostNotice" elevation={5}>
-                            <div className="noPost_title">Welcome!</div>
-                            <Divider />
-                            <div className="noPost_content">
-                                There are no recent posts in this study group.
-                            </div>
-                        </Paper>
-                    )}
+                        })}
+                    </List>
                 </div>
-                <div className="group_postCreate">
-                    <Divider />
-                    <TextField
-                        multiline
-                        id="createPostField"
-                        placeholder="Create A Post"
-                        value={postInput}
-                        size="medium"
-                        rows={4}
-                        onChange={(e) => setPostInput(e.target.value)}
-                        style={{
-                            width: "100%",
-                            marginTop: "10px",
-                            maxHeight: "20vh",
-                            backgroundColor: "white",
-                        }}
-                    />
-                    <Button
-                        variant="contained"
-                        style={{ width: "100%" }}
-                        onClick={() => {
-                            handleSubmit();
+
+                <div className="group_center">
+                    <div className="group_feed">
+                        <div className="group_postCreate">
+                            <TextField
+                                multiline
+                                id="createPostField"
+                                placeholder="Create A Post"
+                                value={postInput}
+                                size="small"
+                                rows={4}
+                                onChange={(e) => setPostInput(e.target.value)}
+                                style={{
+                                    // width: "100%",
+                                    // marginTop: "10px",
+                                    // maxHeight: "20vh",
+                                    backgroundColor: "white",
+                                }}
+                            />
+                            <Button
+                                variant="contained"
+                                // style={{ width: "100%" }}
+                                onClick={() => {
+                                    handleSubmit();
+                                }}
+                            >
+                                Submit
+                            </Button>
+                        </div>
+
+                        <div className="group_postList">
+                            {posts.length > 0 ? (
+                                posts.map((post) => {
+                                    return (
+                                        <Post
+                                            author={post.author}
+                                            content={post.content}
+                                            postid={post.postid}
+                                            postdate={post.postdate}
+                                            userId={user.id}
+                                        />
+                                    );
+                                })
+                            ) : (
+                                <Paper className="noPostNotice" elevation={5}>
+                                    <div className="noPost_title">Welcome!</div>
+                                    <Divider />
+                                    <div className="noPost_content">
+                                        There are no recent posts in this study
+                                        group.
+                                    </div>
+                                </Paper>
+                            )}
+                        </div>
+                    </div>
+                </div>
+                <div className="group_rightBar">
+                    <List
+                        sx={{
+                            maxHeight: "92%",
+                            overflow: "auto",
                         }}
                     >
-                        Submit
-                    </Button>
+                        <ListItem sx={{ marginBottom: "-20px" }}>
+                            <ListItemText
+                                primary={gTitle}
+                                primaryTypographyProps={{ fontSize: "20px" }}
+                            />
+                        </ListItem>
+                        <ListItem>
+                            <ListItemText primary="Members" />
+                        </ListItem>
+                        {memberList.map((member) => {
+                            return (
+                                <ListItem>
+                                    <ListItemButton>
+                                        <ListItemAvatar>
+                                            <Avatar>
+                                                <AccountCircleIcon />
+                                            </Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText primary={member} />
+                                    </ListItemButton>
+                                </ListItem>
+                            );
+                        })}
+                    </List>
                 </div>
-            </div>
-            <div className="group_rightBar">
-                <List
-                    sx={{
-                        maxHeight: "92%",
-                        overflow: "auto",
-                    }}
-                >
-                    <ListItem sx={{ marginBottom: "-20px" }}>
-                        <ListItemText
-                            primary={gTitle}
-                            primaryTypographyProps={{ fontSize: "20px" }}
-                        />
-                    </ListItem>
-                    <ListItem>
-                        <ListItemText primary="Members" />
-                    </ListItem>
-                    {memberList.map((member) => {
-                        return (
-                            <ListItem>
-                                <ListItemButton>
-                                    <ListItemAvatar>
-                                        <Avatar>
-                                            <AccountCircleIcon />
-                                        </Avatar>
-                                    </ListItemAvatar>
-                                    <ListItemText primary={member} />
-                                </ListItemButton>
-                            </ListItem>
-                        );
-                    })}
-                </List>
             </div>
         </div>
     );

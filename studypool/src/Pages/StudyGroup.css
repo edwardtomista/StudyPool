@@ -7,7 +7,7 @@
     box-sizing: border-box;
     z-index: 0;
     display: block;
-
+    
 }
 
 .group_page {
@@ -25,10 +25,20 @@
 .group_container {
     /* display: flex;
     min-height: 85vh;
-    height: 100%;
-
-
-
+    height: 100%; */
+    flex-shrink: 1;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    flex-grow: 1;
+    min-width: 0;
+    box-sizing: border-box;
+    z-index: 0;
+    max-width: 1464px;
+    flex-wrap: nowrap;
+    min-height: inherit;
+    flex-basis: 0px;
+    justify-content: space-between;
 }
 
 .group_leftBar {
@@ -58,7 +68,7 @@
     min-width: 280px;
     min-height: inherit;
     flex-shrink: 9999;
-
+    
     /* flex: 1;
     height: 89vh;
     top: 0;
@@ -67,50 +77,28 @@
 }
 
 .studygroup_group_accent0 {
-
     margin-right: 15px;
     height: 70px;
     width: 5%;
-    background-color: #0033cc;
-    border-radius: 5px 25px ;
-    background-color: #random;
-    -webkit-animation: random 1s infinite;
-    animation: random 7s infinite;
-
+    background-color: #6699cc;
 }
-
 .studygroup_group_accent1 {
     margin-right: 15px;
     height: 70px;
     width: 5%;
-    background-color: #0033cc;
-    border-radius: 5px 25px ;
-    background-color: #random1;
-    -webkit-animation: random1 1s infinite;
-    animation: random1 7s infinite;
-
+    background-color: #dcae96;
 }
-
 .studygroup_group_accent2 {
     margin-right: 15px;
     height: 70px;
     width: 5%;
-    background-color:#3366cc;
-    border-radius: 5px 25px ;
-    background-color: #random2;
-    -webkit-animation: random2 1s infinite;
-    animation: random2 7s infinite;
+    background-color: #800000;
 }
 .studygroup_group_accent3 {
     margin-right: 15px;
     height: 70px;
     width: 5%;
-    background-color:#336699;
-    border-radius: 5px 25px ;
-    background-color: #random3;
-    -webkit-animation: random3 1s infinite;
-    animation: random3 7s infinite;
-
+    background-color: #e0b0ff;
 }
 
 .group_center {
@@ -203,38 +191,4 @@
     max-height: 40vh;
     overflow: auto;
     white-space: pre-wrap;
-}
-
-
-
-
-
-@keyframes random {
-    15% { background-color: #6699ff; }
-    30% { background-color: #0066ff; }
-    45% { background-color: #0033cc; }
-    60% { background-color: #003399; }
-
-}
-
-@keyframes random1{
-    15% { background-color: #669900; }
-    30% { background-color: #009900; }
-    45% { background-color: #009933; }
-    60% { background-color: #006600; }
-
-}
-@keyframes random2 {
-    15% { background-color: #3399ff; }
-    30% { background-color: #0099ff; }
-    45% { background-color: #0066cc; }
-    60% { background-color: #3366cc; }
-
-}
-@keyframes random3 {
-    15% { background-color: #00ccff; }
-    30% { background-color: #00ccff; }
-    45% { background-color: #0099cc; }
-    60% { background-color: #336699; }
-
 }

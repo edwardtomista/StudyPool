@@ -52,6 +52,7 @@ export default function Account() {
             });
     }, [groups]);
 
+    var groupCtr = 0; // Used for group color accents
     return (
         <div className="tables">
             {user.id ? (
