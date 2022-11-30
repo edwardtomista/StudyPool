@@ -15,18 +15,17 @@ import { useNavigate } from "react-router-dom";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import IconButton from "@mui/material/IconButton";
-import SearchBar from "./SearchBar.js"
-
+import SearchIcon from "@mui/icons-material/Search";
+import TextField from "@mui/material/TextField";
 
 export default function Catalog() {
-    const [courses, setCourses] = useState([
-      {courses: "1", name: "KINK"}
-    ]);
+    const [courses, setCourses] = useState([]);
     const [courseCount, setCourseCount] = useState(100);
     const [page, setPage] = useState(0);
     const [sortSection, setSortSection] = useState(false);
     const [sortName, setSortName] = useState(false);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [searchText, setSearchText] = useState("");
     const navigate = useNavigate();
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -40,7 +39,7 @@ export default function Catalog() {
     };
     //this runs on page refresh / first render
     useEffect(() => {
-        fetch(backend_url + "/courseCount")
+        fetch(backend_url + "/courseCount?search="+searchText)
             .then((res) => {
                 return res.json();
             })
@@ -70,7 +69,7 @@ export default function Catalog() {
 
     //this runs everytime the page is changed
     useEffect(() => {
-        fetch(backend_url + "/courseCount")
+        fetch(backend_url + "/courseCount?search="+searchText)
             .then((res) => {
                 return res.json();
             })
@@ -84,6 +83,7 @@ export default function Catalog() {
         } else if (sortName) {
             urlParam += "&courseName=desc";
         }
+        urlParam += "&search=" + searchText;
         fetch(
             backend_url +
                 "/getCourses?start=" +
@@ -106,6 +106,7 @@ export default function Catalog() {
             });
     }, [page, rowsPerPage]);
 
+    //this scrolls the user to the top of the page on page change
     useEffect(() => {
         window.scrollTo({ top: 80, left: 0, behavior: "smooth" });
     }, [page]);
@@ -132,6 +133,7 @@ export default function Catalog() {
             setSortSection(false);
             urlParam += "&courseName=" + courseName;
         }
+        urlParam += "&search=" + searchText;
         fetch(
             backend_url +
                 "/getCourses?start=" +
@@ -154,6 +156,40 @@ export default function Catalog() {
             });
         setPage(0);
     };
+    const handleSearch = (e) => {
+        let urlParam = "&search=" + e.value;
+        setSearchText(e.value);
+        fetch(backend_url + "/courseCount?search="+e.value)
+            .then((res) => {
+                return res.json();
+            })
+            .then((data) => {
+                setCourseCount(data[0]["count(*)"]);
+            });
+        fetch(
+            backend_url +
+                "/getCourses?start=" +
+                page * rowsPerPage +
+                "&rowsPerPage=" +
+                rowsPerPage +
+                urlParam,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        )
+            .then((res) => {
+                return res.json();
+            })
+            .then((data) => {
+                setCourses(data);
+                setSortName(false);
+                setSortSection(false);
+                setPage(0);
+            });
+    };
 
     return (
         <div className="tables">
@@ -161,7 +197,6 @@ export default function Catalog() {
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
-                      <SearchBar placeholder ="Search Class... " data = {courses}/>
                         <TableRow sx={{ backgroundColor: "Gainsboro" }}>
                             <TableCell style={{ width: 300 }}>
                                 Section
@@ -192,10 +227,33 @@ export default function Catalog() {
                                         <KeyboardArrowUpIcon />
                                     )}
                                 </IconButton>
+                                <TextField
+                                    id="searchfield"
+                                    label="Search By Title"
+                                    size="small"
+                                    onKeyDown={(e) => {
+                                        if (e.keyCode === 13) {
+                                            handleSearch(
+                                                document.getElementById(
+                                                    "searchfield"
+                                                )
+                                            );
+                                        }
+                                    }}
+                                />
+                                <IconButton
+                                    onClick={() =>
+                                        handleSearch(
+                                            document.getElementById(
+                                                "searchfield"
+                                            )
+                                        )
+                                    }
+                                >
+                                    <SearchIcon />
+                                </IconButton>
                             </TableCell>
-                            <TableCell align="right"></TableCell>
-                            {/* <TableCell align="right">Time</TableCell>
-            <TableCell align="right">Instructor</TableCell> */}
+                            <TableCell></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

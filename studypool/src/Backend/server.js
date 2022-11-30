@@ -199,18 +199,20 @@ app.get("/getUserGroups", (req, res) => {
 app.get("/getCourses", (req, res) => {
     const start = Number(req.query.start);
     const rowsPerPage = Number(req.query.rowsPerPage);
-    let sqlquery = "SELECT * FROM course order by course_code LIMIT ?,?";
-    if (req.query.courseCode) {
-        sqlquery =
-            "SELECT * FROM course order by course_code " +
-            req.query.courseCode +
-            " LIMIT ?,?";
-    } else if (req.query.courseName) {
-        sqlquery =
-            "SELECT * FROM course order by course_name " +
-            req.query.courseName +
-            " LIMIT ?,?";
+    let sqlquery = "SELECT * FROM course ";
+    if (req.query.search) {
+        sqlquery += "where course_name like '%" + req.query.search + "%' ";
     }
+    if (req.query.courseCode) {
+        sqlquery +=
+            " order by course_code " + req.query.courseCode + " LIMIT ?,?";
+    } else if (req.query.courseName) {
+        sqlquery +=
+            " order by course_name " + req.query.courseName + " LIMIT ?,?";
+    } else {
+        sqlquery += "order by course_name LIMIT ?,?";
+    }
+
     connection.query(sqlquery, [start, rowsPerPage], function (err, data) {
         if (err) {
             console.log(err);
@@ -222,7 +224,12 @@ app.get("/getCourses", (req, res) => {
 
 //Used in /Catalog for pagination number
 app.get("/courseCount", (req, res) => {
-    connection.query("select count(*) from course", function (err, data) {
+    let sqlquery = "SELECT count(*) FROM course ";
+    if (req.query.search) {
+        sqlquery += "where course_name like '%" + req.query.search + "%' ";
+    }
+
+    connection.query(sqlquery, function (err, data) {
         if (err) {
             console.log(err);
         } else {
