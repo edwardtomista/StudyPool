@@ -1,3 +1,3 @@
-const backend_url = 'http://localhost:3001'
+const backend_url = '54.213.49.122'
 
 module.exports = {backend_url}
