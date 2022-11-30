@@ -2,6 +2,9 @@
     display: flex;
     min-height: 85vh;
     height: 100%;
+
+
+
 }
 
 .group_leftBar {
@@ -18,28 +21,50 @@
 }
 
 .studygroup_group_accent0 {
+
     margin-right: 15px;
     height: 70px;
     width: 5%;
-    background-color: #6699cc;
+    background-color: #0033cc;
+    border-radius: 5px 25px ;
+    background-color: #random;
+    -webkit-animation: random 1s infinite;
+    animation: random 7s infinite;
+
 }
+
 .studygroup_group_accent1 {
     margin-right: 15px;
     height: 70px;
     width: 5%;
-    background-color: #dcae96;
+    background-color: #0033cc;
+    border-radius: 5px 25px ;
+    background-color: #random1;
+    -webkit-animation: random1 1s infinite;
+    animation: random1 7s infinite;
+
 }
+
 .studygroup_group_accent2 {
     margin-right: 15px;
     height: 70px;
     width: 5%;
-    background-color: #800000;
+    background-color:#3366cc;
+    border-radius: 5px 25px ;
+    background-color: #random2;
+    -webkit-animation: random2 1s infinite;
+    animation: random2 7s infinite;
 }
 .studygroup_group_accent3 {
     margin-right: 15px;
     height: 70px;
     width: 5%;
-    background-color: #e0b0ff;
+    background-color:#336699;
+    border-radius: 5px 25px ;
+    background-color: #random3;
+    -webkit-animation: random3 1s infinite;
+    animation: random3 7s infinite;
+
 }
 
 .group_feed {
@@ -49,6 +74,7 @@
     padding: 0px;
     height: 89vh;
     overflow: auto;
+
 }
 
 .group_postList {
@@ -97,4 +123,38 @@
     max-height: 40vh;
     overflow: auto;
     white-space: pre-wrap;
+}
+
+
+
+
+
+@keyframes random {
+    15% { background-color: #6699ff; }
+    30% { background-color: #0066ff; }
+    45% { background-color: #0033cc; }
+    60% { background-color: #003399; }
+
+}
+
+@keyframes random1{
+    15% { background-color: #669900; }
+    30% { background-color: #009900; }
+    45% { background-color: #009933; }
+    60% { background-color: #006600; }
+
+}
+@keyframes random2 {
+    15% { background-color: #3399ff; }
+    30% { background-color: #0099ff; }
+    45% { background-color: #0066cc; }
+    60% { background-color: #3366cc; }
+
+}
+@keyframes random3 {
+    15% { background-color: #00ccff; }
+    30% { background-color: #00ccff; }
+    45% { background-color: #0099cc; }
+    60% { background-color: #336699; }
+
 }
