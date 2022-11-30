@@ -19,6 +19,7 @@
     flex-shrink: 0;
     align-items: stretch;
     z-index: 0;
+    height: calc(100vh - 112px);
 }
 
 .group_container {
@@ -41,7 +42,7 @@
 }
 
 .group_leftBar {
-    /* background-color: whitesmoke; */
+    background-color: whitesmoke;
     overflow-x: hidden;
     overflow-y: hidden;
     box-sizing: border-box;
@@ -72,7 +73,7 @@
     height: 89vh;
     top: 0;
     position: sticky; */
-    /* background-color: whitesmoke; */
+    background-color: whitesmoke;
 }
 
 .studygroup_group_accent0 {
@@ -116,7 +117,7 @@
     flex-wrap: nowrap;
     flex-basis: 744px;
     overflow: auto;
-    background-color: whitesmoke;
+    /* background-color: whitesmoke; */
     /* width: 50%;
     min-width: 50vh;
     background-color: whitesmoke;
