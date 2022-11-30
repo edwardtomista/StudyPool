@@ -17,7 +17,7 @@ import { backend_url } from "../links";
 import { UserContext } from "../UserContext";
 
 const StudyGroup = () => {
-    const { user, setUser } = useContext(UserContext);
+    const { user, setUser } = useContext(UserContext); //user info
     const location = useLocation();
     const navigate = useNavigate();
     //location.state.id is the current group id
