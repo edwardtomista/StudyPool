@@ -3,22 +3,26 @@
     height: 70px;
     width: 3%;
     background-color: #6699cc;
+    border-radius: 5px 25px;
 }
 .account_group_accent1 {
     margin-right: 15px;
     height: 70px;
     width: 3%;
     background-color: #dcae96;
+    border-radius: 5px 25px;
 }
 .account_group_accent2 {
     margin-right: 15px;
     height: 70px;
     width: 3%;
     background-color: #800000;
+    border-radius: 5px 25px;
 }
 .account_group_accent3 {
     margin-right: 15px;
     height: 70px;
     width: 3%;
     background-color: #e0b0ff;
+    border-radius: 5px 25px;
 }

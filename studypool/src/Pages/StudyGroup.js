@@ -166,7 +166,7 @@ const StudyGroup = () => {
                                             handleGroupRedirect(group.id)
                                         }
                                         disableGutters
-                                        sx={{ p: 0, ml: 2 }}
+                                        sx={{ p: 0, ml: 2, borderBottomLeftRadius: 15 }}
                                         selected={
                                             location.state.id === group.id
                                                 ? true

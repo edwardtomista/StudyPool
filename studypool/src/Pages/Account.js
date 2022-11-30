@@ -163,12 +163,12 @@ export default function Account() {
                                 return (
                                     <ListItem>
                                         <ListItemButton
-                                            divider={true}
+                                           
                                             onClick={() =>
                                                 handleClick(group.id)
                                             }
                                             disableGutters
-                                            sx={{ p: 0, ml: 2 }}
+                                            sx={{ p: 0, ml: 2, borderBottomLeftRadius: 25 }}
                                         >
                                             <div className={backgroundColor}>
                                                 &nbsp;
