@@ -7,7 +7,7 @@
     box-sizing: border-box;
     z-index: 0;
     display: block;
-    
+
 }
 
 .group_page {
@@ -68,7 +68,7 @@
     min-width: 280px;
     min-height: inherit;
     flex-shrink: 9999;
-    
+
     /* flex: 1;
     height: 89vh;
     top: 0;
@@ -81,24 +81,28 @@
     height: 70px;
     width: 5%;
     background-color: #6699cc;
+    border-radius: 5px 25px;
 }
 .studygroup_group_accent1 {
     margin-right: 15px;
     height: 70px;
     width: 5%;
     background-color: #dcae96;
+    border-radius: 5px 25px;
 }
 .studygroup_group_accent2 {
     margin-right: 15px;
     height: 70px;
     width: 5%;
     background-color: #800000;
+    border-radius: 5px 25px;
 }
 .studygroup_group_accent3 {
     margin-right: 15px;
     height: 70px;
     width: 5%;
     background-color: #e0b0ff;
+    border-radius: 5px 25px;
 }
 
 .group_center {
