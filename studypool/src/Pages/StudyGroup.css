@@ -1,3 +1,15 @@
+.web_page{
+    /* flex-direction: column;
+    display: flex; */
+    position: relative;
+    /* z-index: 0;
+    min-height: inherit; */
+    box-sizing: border-box;
+    z-index: 0;
+    display: block;
+    
+}
+
 .group_page {
     justify-content: center;
     display: flex;
@@ -29,7 +41,7 @@
 }
 
 .group_leftBar {
-    background-color: whitesmoke;
+    /* background-color: whitesmoke; */
     overflow-x: hidden;
     overflow-y: hidden;
     box-sizing: border-box;
@@ -60,7 +72,7 @@
     height: 89vh;
     top: 0;
     position: sticky; */
-    background-color: whitesmoke;
+    /* background-color: whitesmoke; */
 }
 
 .studygroup_group_accent0 {
@@ -91,7 +103,7 @@
 .group_center {
     flex-shrink: 1;
     padding-right: 32px;
-    justify-content: center;
+    justify-content: top;
     display: flex;
     padding-left: 32px;
     flex-direction: column;
@@ -103,6 +115,8 @@
     z-index: 0;
     flex-wrap: nowrap;
     flex-basis: 744px;
+    overflow: auto;
+    background-color: whitesmoke;
     /* width: 50%;
     min-width: 50vh;
     background-color: whitesmoke;
