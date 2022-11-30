@@ -48,7 +48,7 @@ const StudyGroup = () => {
                             author: user.fname + " " + user.lname,
                             content: postInput,
                             postid: postId,
-                            postdate: new Date()
+                            postdate: new Date(),
                         },
                         ...posts,
                     ]);
@@ -123,7 +123,7 @@ const StudyGroup = () => {
                 });
         }
     }, [location.state?.id]);
-
+    var test = 0;
     return (
         <div className="group_container">
             <div className="group_leftBar">
@@ -142,18 +142,42 @@ const StudyGroup = () => {
                         <ListItemText primary="My Groups" />
                     </ListItem>
                     {myGroups.map((group) => {
+                        //some disgusting code to alternate colors for the div tag in
+                        //ListItemButton below
+                        //These if statements is to set the div class to one of the four accent classes in the .css
+                        //right now idk a better way to do this so here you are
+                        let backgroundColor = "";
+                        if (test === 0) {
+                            backgroundColor = "studygroup_group_accent0";
+                            test++;
+                        } else if (test === 1) {
+                            backgroundColor = "studygroup_group_accent1";
+                            test++;
+                        } else if (test === 2) {
+                            backgroundColor = "studygroup_group_accent2";
+                            test++;
+                        } else {
+                            backgroundColor = "studygroup_group_accent3";
+                            test = 0;
+                        }
                         return (
                             <ListItem>
                                 <ListItemButton
                                     onClick={() =>
                                         handleGroupRedirect(group.id)
                                     }
+                                    disableGutters
+                                    sx={{ p: 0, ml: 2 }}
+                                    selected={
+                                        location.state.id === group.id
+                                            ? true
+                                            : false
+                                    }
                                 >
-                                    <ListItemAvatar>
-                                        <Avatar>
-                                            <AccountCircleIcon />
-                                        </Avatar>
-                                    </ListItemAvatar>
+                                    <div className={backgroundColor}>
+                                        &nbsp;
+                                    </div>
+
                                     <ListItemText
                                         primary={group.title}
                                         secondary={

@@ -1,75 +1,100 @@
 .group_container {
-  display: flex;
-  min-height: 85vh;
-  height: 100%;
+    display: flex;
+    min-height: 85vh;
+    height: 100%;
 }
 
 .group_leftBar {
-  background-color: whitesmoke;
+    background-color: whitesmoke;
 }
 
 .group_leftBar,
 .group_rightBar {
-  flex: 1;
-  height: 89vh;
-  top: 0;
-  position: sticky;
-  background-color: whitesmoke;
+    flex: 1;
+    height: 89vh;
+    top: 0;
+    position: sticky;
+    background-color: whitesmoke;
+}
+
+.studygroup_group_accent0 {
+    margin-right: 15px;
+    height: 70px;
+    width: 5%;
+    background-color: #6699cc;
+}
+.studygroup_group_accent1 {
+    margin-right: 15px;
+    height: 70px;
+    width: 5%;
+    background-color: #dcae96;
+}
+.studygroup_group_accent2 {
+    margin-right: 15px;
+    height: 70px;
+    width: 5%;
+    background-color: #800000;
+}
+.studygroup_group_accent3 {
+    margin-right: 15px;
+    height: 70px;
+    width: 5%;
+    background-color: #e0b0ff;
 }
 
 .group_feed {
-  width: 50%;
-  min-width: 50vh;
-  background-color: whitesmoke;
-  padding: 0px;
-  height: 89vh;
-  overflow: auto;
+    width: 50%;
+    min-width: 50vh;
+    background-color: whitesmoke;
+    padding: 0px;
+    height: 89vh;
+    overflow: auto;
 }
 
 .group_postList {
-  min-width: 50vh;
-  background-color: whitesmoke;
-  padding: 0px;
-  height: 69vh;
-  min-height: 65vh;
-  overflow: auto;
+    min-width: 50vh;
+    background-color: whitesmoke;
+    padding: 0px;
+    height: 69vh;
+    min-height: 65vh;
+    overflow: auto;
 }
 
 .group_postCreate {
-  min-width: 50vh;
-  overflow: auto;
-  max-height: 20vh;
-  height: 19vh;
-  margin-top: 1vh;
-  padding-left: 60px;
-  padding-right: 60px;
-  background-color: whitesmoke;
+    min-width: 50vh;
+    overflow: auto;
+    max-height: 20vh;
+    height: 19vh;
+    margin-top: 1vh;
+    padding-left: 60px;
+    padding-right: 60px;
+    background-color: whitesmoke;
 }
 
 ::-webkit-scrollbar {
-  width: 4px;
-  background-color: whitesmoke;
+    width: 4px;
+    background-color: whitesmoke;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888;
+    background: #888;
 }
 
 .noPostNotice {
-  margin-top: 12px;
-  margin-left: 60px;
-  margin-right: 60px;
-  padding: 20px;
+    margin-top: 12px;
+    margin-left: 60px;
+    margin-right: 60px;
+    padding: 20px;
 }
 
 .noPost_title {
-  font-size: 15px;
-  margin-bottom: 10px;
+    font-size: 15px;
+    margin-bottom: 10px;
 }
 
 .noPost_content {
-  margin-top: 10px;
-  max-height: 40vh;
-  overflow: auto;
-  white-space: pre-wrap;
+    margin-top: 10px;
+    max-height: 40vh;
+    overflow: auto;
+    white-space: pre-wrap;
 }
