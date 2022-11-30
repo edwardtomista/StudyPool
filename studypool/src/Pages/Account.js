@@ -13,6 +13,7 @@ import { UserContext } from "../UserContext";
 import { backend_url } from "../links";
 import { useNavigate, Navigate } from "react-router-dom";
 import { ListItemButton } from "@mui/material";
+import "./Account.css";
 
 export default function Account() {
     const { user, setUser } = useContext(UserContext);
@@ -139,19 +140,38 @@ export default function Account() {
                         <h1>My Groups</h1>
                         <List sx={{ minWidth: 500 }}>
                             {groups.map(function (group) {
+                                //Used to create color accents for each listitembuttom
+                                let backgroundColor = "";
+                                if (groupCtr === 0) {
+                                    backgroundColor =
+                                        "account_group_accent0";
+                                    groupCtr++;
+                                } else if (groupCtr === 1) {
+                                    backgroundColor =
+                                        "account_group_accent1";
+                                    groupCtr++;
+                                } else if (groupCtr === 2) {
+                                    backgroundColor =
+                                        "account_group_accent2";
+                                    groupCtr++;
+                                } else {
+                                    backgroundColor =
+                                        "account_group_accent3";
+                                    groupCtr = 0;
+                                }
                                 return (
                                     <ListItem>
-                                        <ListItemAvatar>
-                                            <Avatar>
-                                                <AccountCircleIcon />
-                                            </Avatar>
-                                        </ListItemAvatar>
                                         <ListItemButton
                                             divider={true}
                                             onClick={() =>
                                                 handleClick(group.id)
                                             }
+                                            disableGutters
+                                            sx={{ p: 0, ml: 2 }}
                                         >
+                                            <div className={backgroundColor}>
+                                                &nbsp;
+                                            </div>
                                             <ListItemText
                                                 primary={group.title}
                                                 secondary={
