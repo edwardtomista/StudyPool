@@ -34,7 +34,7 @@ app.get("/test", (req, res) => {
 });
 
 const csvtojson = require('csvtojson');
-const fileName = './src/Backend/sjsu_courses.csv';
+const fileName = './sjsu_courses.csv';
 csvtojson().fromFile(fileName).then(source => {
     for (var i = 0; i < source.length; i++) {
         const CourseCode = source[i]['CourseCode'],
