@@ -80,6 +80,7 @@ export default function SignUp() {
             .then((data) => {
                 // console.log("it work");
                 // console.log(data);
+                console.log(backend_url);
 
                 fetch(backend_url + "/signup", {
                     method: "POST",
