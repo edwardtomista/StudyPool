@@ -25,37 +25,6 @@ app.get("/", (req, res) => {
     res.send("Successfully Connected!");
 });
 
-app.get("/test", (req, res) => {
-    connection.query("SELECT * FROM user;", function (err, rows, fields) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.send(rows);
-        }
-    });
-});
-
-const csvtojson = require("csvtojson");
-const fileName = "./sjsu_courses.csv";
-csvtojson()
-    .fromFile(fileName)
-    .then((source) => {
-        for (var i = 0; i < source.length; i++) {
-            const CourseCode = source[i]["CourseCode"],
-                CourseFullName = source[i]["CourseFullName"];
-
-            connection.query(
-                "INSERT IGNORE INTO course (course_name, course_code) VALUES (?, ?)",
-                [CourseFullName, CourseCode],
-                function (err, rows, fields) {
-                    if (err) {
-                        console.log(err);
-                    }
-                }
-            );
-        }
-    });
-
 app.get("/getAllUsers", (req, res) => {
     connection.query("SELECT * FROM user", function (err, rows, fields) {
         if (err) {
