@@ -1,3 +1,3 @@
-const backend_url = 'http://localhost:8080'
+const backend_url = '35.88.89.240:3001'
 
 module.exports = {backend_url}
