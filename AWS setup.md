@@ -72,12 +72,16 @@ Install node, git, yarn in the instance.
 ```
     if node is not working, using "$ nvm install 16" instead "$ nvm install node"
 
-
 ### 2-8
 Clone the git.
 ```
   $ git clone https://github.com/edwardtomista/StudyPool.git
 ```
+
+### 2-9
+Edit inbound rules of the Security Group.
+![E95DEC98-8CEE-43CD-8570-21B32EA9DAF9](https://user-images.githubusercontent.com/75586376/205390591-da414185-6f15-44a0-9851-d1863d66cb0d.png)
+
 
 ### 3 Nginx + React
 
