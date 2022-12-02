@@ -308,7 +308,7 @@ app.post("/createComment", (req, res) => {
             if (err) {
                 console.log(err);
             } else {
-                //res.send(String(results.insertId));
+                res.send(String(results.insertId));
             }
         }
     );
