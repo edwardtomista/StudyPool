@@ -46,8 +46,7 @@ In this project, we chose Linux.
 To connect securely to the instance, you make a key pair. The key pair type is RSA and format is .pem.
 ![381505C8-2AB7-46A3-A9CA-2882E3947DA9](https://user-images.githubusercontent.com/75586376/205376968-17371818-9799-4c1d-bb6d-8d188cc63bd8.png)
 
-Change permission on the private key (.pem).
-![image](https://user-images.githubusercontent.com/75586376/205381516-3c021dfb-7975-4158-a580-c86de813846a.png)
+Change permission on the private key (.pem) using commend: $ chod 400 private key
 
 ### 2-6
 When you create the instance, the instance gives the public DNS. 
