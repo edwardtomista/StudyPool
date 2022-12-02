@@ -46,16 +46,22 @@ In this project, we chose Linux.
 To connect securely to the instance, you make a key pair. The key pair type is RSA and format is .pem.
 ![381505C8-2AB7-46A3-A9CA-2882E3947DA9](https://user-images.githubusercontent.com/75586376/205376968-17371818-9799-4c1d-bb6d-8d188cc63bd8.png)
 
-Change permission on the private key (.pem) using commend: $ chod 400 private key
+Change permission on the private key (.pem) using commend: 
+```
+  $ chod 400 private key
+```
 
 ### 2-6
 When you create the instance, the instance gives the public DNS. 
 
 Enter the terminal. Then, connect the instance using SSH. 
+```
   ssh -i "path of the private key" ec2-user@"instance public DNS"
+```
 
 ### 2-7
 Install node, git, yarn in the instance.
+```
   $ sudo su
   $ curl -o- -L https://yarnpkg.com/install.sh | bash
   $ source ~/.bashrc
@@ -63,33 +69,42 @@ Install node, git, yarn in the instance.
   $ . ~/.nvm/nvm.sh
   $ nvm install node
   $ node -e "console.log('Running Node.js ' + process.version)"
+```
     if node is not working, using "$ nvm install 16" instead "$ nvm install node"
+
 
 ### 2-8
 Clone the git.
+```
   $ git clone https://github.com/edwardtomista/StudyPool.git
-
+```
 
 ### 3 Nginx + React
 
 #### 3-1
 Install Nginx.
+```
   $ sudo yum install nginx // Amazon Linux 1 
   $ sudo amazon-linux-extras install nginx1.12 // Amazon Linux 2 
+```
 
 ### 3-2
 Change the back_end url on the links.js where is on Frontend folder of the project into the public DNS.
 
 Go to the Frontend folder then build the react.
+```
   $ npm install
   $ npm run build
+```
 
 ### 3-3
 Open the file "nginx.conf".
+```
   $ sudo vi /etc/nginx/nginx.conf
+```
   
 Modify the file. 
-'''
+```
   ...
   
   include /etc/nginx/conf.d/*.conf;
@@ -113,15 +128,17 @@ Modify the file.
   # }
 
   ...
-'''
+```
 
 Set "sites-available" and "sites-enabled".
+```
   $ sudo mkdir /etc/nginx/sites-available
   $ sudo mkdir /etc/nginx/sites-enabled
   $ sudo vi /etc/nginx/sites-available/myapp.conf
+```
 
 In the myapp.conf, add the code.
-'''
+```
   server {
     listen 80;
     location / {
@@ -133,27 +150,36 @@ In the myapp.conf, add the code.
       proxy_pass http://35.89.201.78/api/;
     }
   }
-'''
+```
 
 Copy the myapp.conf and paste it into sites-enabled.
+```
   $ sudo ln -s /etc/nginx/sites-available/#######.conf /etc/nginx/sites-enabled/#######.conf
   $ sudo nginx -t
+```
 If the successful test message is out, the Nginx is working.
 
 Run the Nginx.
+```
   $ sudo systemctl start nginx
+```
 If it is not working, use the command:
+```
   $ chmod 711 /home/ec2-user
+```
 
 
 ### 4 Run server using pm2
 
 #### 4-1
 Go to the Backend folder then install node and pm2.
+```
   $ npm install
   $ npm install -g pm2
+```
 
 #### 4-2
+```
 Run the pm2 the backend server.
   $ pm2 start node server.js
-
+```
