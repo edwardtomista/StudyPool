@@ -82,7 +82,7 @@ export default function SignUp() {
                 // console.log(data);
                 console.log(backend_url);
 
-                fetch(backend_url + "/signup", {
+                fetch("/signup", {
                     method: "POST",
                     headers: {
                         "content-type": "application/json",
