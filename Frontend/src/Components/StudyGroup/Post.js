@@ -4,6 +4,7 @@ import Paper from "@mui/material/Paper";
 import { Divider, TextField, Button } from "@mui/material";
 import Comment from "./Comment.js";
 import { backend_url } from "../../links";
+import { useNavigate } from "react-router-dom";
 
 const Post = (props) => {
     /** props:
@@ -13,7 +14,7 @@ const Post = (props) => {
     const [isCommentsOpen, setCommentsOpen] = useState(false);
     const [commentInput, setCommentInput] = useState("");
     const [comments, setComments] = useState([]);
-
+    const navigate = useNavigate();
     //This will fetch all comments on render
     useEffect(() => {
         //takes pid = postId
@@ -55,17 +56,25 @@ const Post = (props) => {
                     user_id: props.userId,
                     content: commentInput,
                 }),
-            });
-            setComments([
-                {
-                    author: props.author,
-                    content: commentInput,
-                    date: new Date()
-                },
-                ...comments,
-            ]);
+            })
+                .then((res) => {
+                    return res.json();
+                })
+                .then((data) => {
+                    //this refreshes the page to fetch comment data again
+                    //doing this to fix wrong names on comments in deployment
+                    navigate(0);
+                });
             setCommentInput("");
             setReplyOpen(false);
+            // setComments([
+            //     {
+            //         author: props.author,
+            //         content: commentInput,
+            //         date: new Date()
+            //     },
+            //     ...comments,
+            // ]);
         }
     };
     const convertDate = (pdate) => {

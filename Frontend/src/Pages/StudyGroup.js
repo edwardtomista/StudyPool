@@ -43,15 +43,19 @@ const StudyGroup = () => {
                     return res.json();
                 })
                 .then((postId) => {
-                    setPosts([
-                        {
-                            author: user.fname + " " + user.lname,
-                            content: postInput,
-                            postid: postId,
-                            postdate: new Date(),
-                        },
-                        ...posts,
-                    ]);
+                    // setPosts([
+                    //     {
+                    //         author: user.fname + " " + user.lname,
+                    //         content: postInput,
+                    //         postid: postId,
+                    //         postdate: new Date(),
+                    //     },
+                    //     ...posts,
+                    // ]);
+
+                    //this refreshes the page to fetch post data again
+                    //doing this to fix wrong names on posts in deployment
+                    navigate(0);
                 });
 
             setPostInput("");
@@ -166,7 +170,11 @@ const StudyGroup = () => {
                                             handleGroupRedirect(group.id)
                                         }
                                         disableGutters
-                                        sx={{ p: 0, ml: 2, borderBottomLeftRadius: 15 }}
+                                        sx={{
+                                            p: 0,
+                                            ml: 2,
+                                            borderBottomLeftRadius: 15,
+                                        }}
                                         selected={
                                             location.state.id === group.id
                                                 ? true
