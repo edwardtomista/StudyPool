@@ -101,7 +101,7 @@ app.post("/joinGroup", (req, res) => {
             if (err) {
                 console.log(err);
             } else {
-                //console.log(results);
+                res.send("{}")
             }
         }
     );

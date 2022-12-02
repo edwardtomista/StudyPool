@@ -108,8 +108,13 @@ export default function Groups(props) {
                         user_id: user.id,
                         course_id: location.state.cid,
                     }),
-                });
-                navigate("/StudyGroup", { state: { id: gid } });
+                })
+                    .then((res) => {
+                        return res.json();
+                    })
+                    .then((data) => {
+                        navigate("/StudyGroup", { state: { id: gid } });
+                    });
             });
         setGroups([
             ...groups,
@@ -135,8 +140,13 @@ export default function Groups(props) {
                 user_id: user.id,
                 course_id: location.state.cid,
             }),
-        });
-        navigate("/StudyGroup", { state: { id: gid } });
+        })
+            .then((res) => {
+                return res.json();
+            })
+            .then((data) => {
+                navigate("/StudyGroup", { state: { id: gid } });
+            });
     };
 
     const handleLeave = (gid) => {
