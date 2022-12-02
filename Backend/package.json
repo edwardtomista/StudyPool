@@ -33,7 +33,7 @@
   },
   "scripts": {
     "backend": "nodemon ./server.js",
-    "start": "concurrently \"npm run backend\" \"react-scripts start\"",
+    "start": "concurrently \"npm run backend\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

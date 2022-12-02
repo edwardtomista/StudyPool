@@ -16,7 +16,6 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { login } from "../Auth";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../UserContext";
-
 import { backend_url } from "../links";
 
 function Copyright(props) {
